@@ -7,9 +7,13 @@ This course is intended for educational purpose on learning practical aspects of
 # **Contents**
 
   [**1. Introduction**](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/Week1_Introduction)
+  
   [**2. Experiment Tracking and Model Management**](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/Week2_Experiment_Tracking)
+  
   [**3. Orchestration and ML Pipelines**](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/Week3_Orchestration)
+  
   [**4. Model Deployment**]
+  
   [**5. Model Monitoring**]
 
 
