@@ -82,6 +82,12 @@ def main(date=None):
     mlflow.set_tracking_uri("sqlite:///mlflow_prefect.db")
     mlflow.set_experiment("prefect-experiment")
     train_path, val_path = get_paths(date).result()
+    train_date = str(train_path[49:56])
+    val_date = str(val_path[49:56])
+
+    action_date = {'2021-01': "January-2021", '2021-02': "February-2021", '2021-03': "March-2021",
+                    '2021-04': "April-2021", '2021-05': "May-2021", '2021-06': "June-2021",
+                    '2021-07': "July-2021"}
     categorical = ['PUlocationID', 'DOlocationID']
 
     df_train = read_data(train_path)
@@ -97,8 +103,12 @@ def main(date=None):
         # mlflow.log_metric("Date", date)
         lr, dv, mse_train = train_model(df_train_processed, categorical).result()
         mse_val = run_model(df_val_processed, categorical, dv, lr).result()
+        train_period = action_date.get(train_date, None)
+        val_period = action_date.get(val_date, None)
         mlflow.log_metric("MSE training", mse_train)
         mlflow.log_metric("MSE validation", mse_val)
+        mlflow.set_tag("Train date", train_period)
+        mlflow.set_tag("Val date", val_period)
         with open(f'models/model-{date}.bin', 'wb') as f_model_out:
             pickle.dump((dv, lr), f_model_out)
         mlflow.log_artifact(local_path=f"models/model-{date}.bin", artifact_path="models_lr")
