@@ -6,4 +6,4 @@ We use API services from Prefect Orion to help us getting better productivity in
 
 ### **Prefect Orion** 
 
-[!image](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect_Orion_screenshot.png)
+![Image](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect_Orion_screenshot.png)
