@@ -4,3 +4,9 @@ This week we learn about managing machine learning information in various aspect
 
 ### **MLFlow** 
 ![Image](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week2_Experiment_Tracking/MLFlow_screenshot.png)
+
+Ways to start MLFlow UI in Terminal:
+1) With SQLite
+`mlflow ui --backend-store-uri sqlite:///mlflow.db`
+
+an instance database file named `mlflow.db` will appear inside the directory that mlflow ui starts
