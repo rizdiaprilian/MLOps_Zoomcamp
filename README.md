@@ -12,7 +12,7 @@ This course is intended for educational purpose on learning practical aspects of
   
   [**3. Orchestration and ML Pipelines**](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/Week3_Orchestration)
   
-  [**4. Model Deployment**]
+  [**4. Model Deployment**](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/Week4_Deployment)
   
   [**5. Model Monitoring**]
 
