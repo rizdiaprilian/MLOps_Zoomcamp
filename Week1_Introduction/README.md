@@ -8,11 +8,11 @@
 - MLOps maturity model
 
 
-'Environment Setup'
+## **Environment Setup**
 
-This section is for outlining steps for configuring development environment with preference to Linux OS. For that matter, we are renting an Ubuntu server on AWS and setting up the environment to suit our need.
+This section covers the initial configuration on working environment required before proceeding to following throughout this course. In this case, the option is to rent an EC2 virtual machine on AWS as to getting all requirements prepared.
 
-Note: I am on Windows Laptop, hence all the configurations done locally are pertaining to Windows OS only.
+On a sidenote, all of these configurations were done on my personal Windows notebook.
 
 **Phase 1: EC2 Instance**
 
