@@ -12,7 +12,7 @@
 
 This section covers the initial configuration on working environment required before proceeding to following throughout this course. In this case, the option is to rent an EC2 virtual machine on AWS as to getting all requirements prepared. 
 
-Remainder: running this instance may cost a few dollars to spend up with. It is better to stop (or delete) the instance before leaving.
+Remainder: running this instance may cost a few dollars to spend up with. Do not forget to stop (or delete) the instance before leaving.
 
 On a sidenote, all of these configurations were done on my personal Windows notebook. Bash terminals used are Git Bash and VSCode.
 
@@ -40,12 +40,32 @@ On a sidenote, all of these configurations were done on my personal Windows note
     ```bash
     nano ~/.ssh/config
     ```
-    
+    or
     ```bash
     code config
     ```
-    
-    The view of config shall be as shown below.
-    ![image](https://user-images.githubusercontent.com/42743243/177289966-37bc2899-3386-473b-b17b-c0205a3cc055.png)
+    Then enter the following into `~/.ssh/config`
+    ``` bash
+    Host aws-mlops_demo
+        HostName 18.497.75.102 # Example of VM Public IP
+        User mlops_zoomcamp # Example of VM user
+        IdentityFile c:/Users/username/.ssh/pem_file.pem # Example of Private SSH key file
+        StrictHostKeyChecking no
+    ```
 
-### **Phase 3: Launch an EC2 Instance**
+### **Phase 3: Install the Dependency**
+After successfully connecting with AWS Instance, it is the right time to install required softwares.
+
+* Anaconda
+
+```bash
+cd ~
+wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+bash Anaconda3-2022.05-Linux-x86_64.sh
+```
+
+* Docker
+
+```bash
+sudo apt install docker.io
+```
