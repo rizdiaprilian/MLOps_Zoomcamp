@@ -16,7 +16,7 @@ Remainder: running this instance may cost a few dollars to spend up with. It is 
 
 On a sidenote, all of these configurations were done on my personal Windows notebook. Bash terminals used are Git Bash and VSCode.
 
-**Phase 1: Launch an EC2 Instance**
+# **Phase 1: Launch an EC2 Instance**
 
 - Go to AWS Console and select `Launch Instance` to begin. 
 - Configuration:
@@ -28,7 +28,7 @@ On a sidenote, all of these configurations were done on my personal Windows note
 
 - When the EC2 instance has run successfully, write down the public IP. 
 
-**Phase 2: Connect to Ubuntu EC2 server**
+# **Phase 2: Connect to Ubuntu EC2 server**
 
 - The key is downloaded in `.pem` format and it is required to move this key, pem_file, to directory `\.ssh` within home directory.
 - Execute the following command from .ssh directory to change the permission of .pem file to protect it
