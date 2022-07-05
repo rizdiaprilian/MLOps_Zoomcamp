@@ -36,8 +36,11 @@ On a sidenote, all of these configurations were done on my personal Windows note
 - Protect the key in the .ssh directory with this command: `chmod 400 pem_file`
 - Execute the following command to connect to the server: `ssh -i pem_file ubuntu@public_ip`
 - Alternatively, you can write the connection details on config file by defining host in .ssh directory. Be remindful you need to change the public IP each time you start the instance.
-    '''nano ~/.ssh/config'''
-    '''code config'''
+
+    ```nano ~/.ssh/config```
+    
+    ```code config```
+    
     The view of config shall be as shown below.
     ![image](https://user-images.githubusercontent.com/42743243/177289966-37bc2899-3386-473b-b17b-c0205a3cc055.png)
 
