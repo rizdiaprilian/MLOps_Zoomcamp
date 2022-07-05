@@ -16,10 +16,11 @@ Remainder: running this instance may cost a few dollars to spend up with. It is 
 
 On a sidenote, all of these configurations were done on my personal Windows notebook. Bash terminals used are Git Bash and VSCode.
 
-# **Phase 1: Launch an EC2 Instance**
+### **Phase 1: Launch an EC2 Instance**
 
 - Go to AWS Console and select `Launch Instance` to begin. 
 - Configuration:
+  - Name
   - Application and OS Images: `Ubuntu Server 22.04`, `64-bit (x86)`
   - Instance type: `t2.xlarge`
   - Key pair: Input the name of your choice. 
@@ -28,13 +29,14 @@ On a sidenote, all of these configurations were done on my personal Windows note
 
 - When the EC2 instance has run successfully, write down the public IP. 
 
-# **Phase 2: Connect to Ubuntu EC2 server**
+### **Phase 2: Connect to Ubuntu EC2 server**
 
 - The key is downloaded in `.pem` format and it is required to move this key, pem_file, to directory `\.ssh` within home directory.
 - Execute the following command from .ssh directory to change the permission of .pem file to protect it
 - Protect the key in the .ssh directory with this command: `chmod 400 pem_file`
 - Execute the following command to connect to the server: `ssh -i pem_file ubuntu@public_ip`
+- Alternatively, you can write the connection details on config file by defining host in .ssh directory. Be remindful you need to change the public IP each time you start the instance.
 
-- For ease of connecting the server add the connection details in config file in .ssh directory.
+    `nano ~/.ssh/config` or `code config`
+    ![image](https://user-images.githubusercontent.com/42743243/177289452-8a5abe20-29ff-489c-99b2-e8af42212132.png)
 
-    `nano ~/.ssh/config`
