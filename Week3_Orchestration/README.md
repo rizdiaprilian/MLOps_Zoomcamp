@@ -38,4 +38,6 @@ More information about Prefect Orion:
 
 ### **Prefect Orion in Action**
 
-The demonstration of prefect orion on NY Taxi homework is provided here: [*Homework*](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/homework_with_prefect.py)
+The demonstration of prefect orion on NY Taxi homework is provided here: 
+- [*Homework with Orion*](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect/homework_with_prefect_rev1.py)
+- [*Homework with Cloud*](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect/homework_with_prefect_cloud_rev1.py)
