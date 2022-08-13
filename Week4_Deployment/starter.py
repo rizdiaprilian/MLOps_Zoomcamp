@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pickle
 
-
+### minor change: fhv_tripdata repository changed from https://nyc-tlc.s3.amazonaws.com to https://d37ci6vzurychx.cloudfront.net
 def load_dic_vectorizer(bin_file):
     with open(bin_file, 'rb') as f_in:
         dv, lr = pickle.load(f_in)
@@ -25,9 +25,10 @@ def read_data(filename):
     return df
 
 def preprocessing(year_input, month_input):
-    df = read_data(f'https://nyc-tlc.s3.amazonaws.com/trip+data/fhv_tripdata_{year_input}-{month_input}.parquet')
+    # df = read_data(f'https://nyc-tlc.s3.amazonaws.com/trip+data/fhv_tripdata_{year_input}-{month_input}.parquet')
+    df = read_data(f'https://d37ci6vzurychx.cloudfront.net/trip-data/fhv_tripdata_{year_input}-{month_input}.parquet')
     categorical = ['PUlocationID', 'DOlocationID']
-    dv, lr = load_dic_vectorizer('model.bin')
+    dv, lr = load_dic_vectorizer('model.bin')  ## DictVectorizer and LinearRegression made in version 1.0.2
     dicts = df[categorical].to_dict(orient='records')
     X_val = dv.transform(dicts)
     return lr, X_val, df
