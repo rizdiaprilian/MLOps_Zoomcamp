@@ -1,6 +1,6 @@
 # **ML Deployment**
 
-So far, we have managed to register machine learning in MLFlow as well as writing script to be orchestrated and ready for production. This step will bring further the model to be able to respond from given request in environment: deployment.
+So far, we have managed to register machine learning with MLFlow that makes it easier to reproduce the model later as well as writing orchestration script in Prefect to render the model suitable for production. This step will bring further the model to be able to respond from given request in environment: deployment.
 
 Setup preparation for model deployment can be done either in batch (offline) that allow prediction on newly unseen data arrives in periodic schedule or in real-time streaming (online) that the model always runs to serve anytime. 
 
