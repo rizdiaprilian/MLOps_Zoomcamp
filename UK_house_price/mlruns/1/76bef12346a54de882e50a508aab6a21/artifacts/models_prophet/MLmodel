@@ -1,0 +1,16 @@
+artifact_path: models_prophet
+flavors:
+  prophet:
+    code: null
+    data: model.pr
+    model_type: Prophet
+    prophet_version: '1.0'
+  python_function:
+    data: model.pr
+    env: conda.yaml
+    loader_module: mlflow.prophet
+    python_version: 3.8.13
+mlflow_version: 1.27.0
+model_uuid: 0960cccbcb39405eb2b2a5426f416e85
+run_id: 76bef12346a54de882e50a508aab6a21
+utc_time_created: '2022-08-15 08:39:01.613375'
