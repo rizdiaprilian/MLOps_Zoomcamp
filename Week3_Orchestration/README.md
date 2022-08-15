@@ -41,3 +41,19 @@ More information about Prefect Orion:
 The demonstration of prefect orion on NY Taxi homework is provided here: 
 - [*Homework with Orion*](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect/homework_with_prefect_rev1.py)
 - [*Homework with Cloud*](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week3_Orchestration/Prefect/homework_with_prefect_cloud_rev1.py)
+
+
+## **Prefect Cloud**
+
+Alternatively, you can also perform orchestration in Prefect Cloud. The steps taken to run the task in the cloud service is more or less the same as when you do in Orion.
+
+A personal account is required to use this service. You can choose GitHub account to start the registration.
+
+Generate API key with these steps:
+- Hover to settings on the left bottom window and choose `account settings`
+- Select `Generate API Key` and Cloud automatically generate random key.
+- Take the screenshot on API key and store it to the place.
+- Run the command on bash script: `prefect cloud login -k <API key>` and see if the response is such that Cloud is ready to serve.
+- Run file 'prefect_with_cloud.py' and see how it goes through.
+
+
