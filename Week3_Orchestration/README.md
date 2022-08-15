@@ -52,9 +52,9 @@ Alternatively, you can also perform orchestration in Prefect Cloud. The steps ta
 A personal account is required to use this service. You can choose GitHub account to start the registration.
 
 Generate API key with these steps:
-- Hover to settings on the left bottom window and choose `account settings`
-- Select `Generate API Key` and Cloud automatically generate random key.
-- Take the screenshot on API key and store it to the place.
+- Hover to settings on the left bottom window and choose your `Account Name`
+- Select `API` and choose `+` button. Cloud automatically generate random key.
+- Take a note on API key and save it to the note app of your choice.
 - Run the command on bash script: `prefect cloud login -k <API key>` and see if the response is such that Cloud is ready to serve.
 - Run file 'prefect_with_cloud.py' and see how it goes through.
 
