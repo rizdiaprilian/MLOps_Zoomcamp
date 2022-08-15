@@ -58,4 +58,5 @@ Generate API key with these steps:
 - Run the command on bash script: `prefect cloud login -k <API key>` and see if the response is such that Cloud is ready to serve.
 - Run file 'prefect_with_cloud.py' and see how it goes through.
 
+![image](https://user-images.githubusercontent.com/42743243/184643424-a9536293-4bbe-432d-b5e0-842e8d1122db.png)
 
