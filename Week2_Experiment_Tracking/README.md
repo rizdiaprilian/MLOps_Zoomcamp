@@ -5,8 +5,12 @@ This week we learn about managing machine learning information in various aspect
 ### **MLFlow** 
 ![Image](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/Week2_Experiment_Tracking/MLFlow_screenshot.png)
 
-Ways to start MLFlow UI in Terminal:
-1) With SQLite
+Ways to start MLFlow UI in local machine:
+1) With SQLite in local machine
 `mlflow ui --backend-store-uri sqlite:///mlflow.db`
 
-an instance database file named `mlflow.db` will appear inside the directory that mlflow ui starts
+2) With PostgreSQL in AWS linux environment:
+`mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri postgresql://<db name>:<unique-id>@<url>:5432/<db name> --default-artifact-root <s3 bucket>`
+
+
+See documentation here: https://www.mlflow.org/docs/latest/index.html
