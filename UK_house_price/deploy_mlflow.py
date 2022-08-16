@@ -7,8 +7,8 @@ from flask import Flask, request, jsonify
 
 RUN_ID = os.getenv('RUN_ID')
 ### with MLFLow tracking server ###
-# RUN_ID = '836ad6fb72de4878a6cafb093bbeb2e3'
-# MLFLOW_TRACKING_URI = 'http://ec2-35-177-90-140.eu-west-2.compute.amazonaws.com:5000'
+# RUN_ID = "run_id"
+# MLFLOW_TRACKING_URI = "public IPv4 DNS"
 
 # mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 # client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
@@ -16,7 +16,7 @@ RUN_ID = os.getenv('RUN_ID')
 # logged_model = f'runs:/{RUN_ID}/models_prophet'
 
 ### from S3 without tracking server ###
-logged_model = f's3://mlopszoomcamp-bucket/UK_house_price/{RUN_ID}/artifacts/models_prophet'
+logged_model = f's3://{s3_bucket}/UK_house_price/{RUN_ID}/artifacts/models_prophet'
 model = mlflow.pyfunc.load_model(logged_model)
 
 def prepare_features(df_test):
