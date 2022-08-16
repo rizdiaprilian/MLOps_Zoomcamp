@@ -21,8 +21,10 @@ mlflow.set_tracking_uri(f"http://{TRACKING_SERVER_HOST}:5000")
 `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite://<db name> --default-artifact-root <s3 bucket>`
 
 - back to Jupyter notebook, run this command: 
-print(f"tracking URI: '{mlflow.get_tracking_uri()}'")
-copy the link to the browser and paste it. MLflow would be loaded as shown below:
+`print(f"tracking URI: '{mlflow.get_tracking_uri()}'")`
+copy the link to the browser and paste it. 
+
+- MLflow would be loaded as shown below:
 ![image](https://user-images.githubusercontent.com/42743243/184874471-0d741216-5ca9-4296-a625-9d1308b4726b.png)
 
 
