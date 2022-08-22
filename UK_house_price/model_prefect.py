@@ -19,8 +19,8 @@ from prefect.task_runners import SequentialTaskRunner
 @task(name="get-path-task")
 def get_paths() -> str:
     PATH_CURRENT = Path.cwd()
-    NEW_PATH = os.path.join(PATH_CURRENT.parents[1], "data", "uk_house_price")
-    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
+    NEW_PATH = os.path.join(PATH_CURRENT.parents[1],"data","uk_house_price")
+    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
 
