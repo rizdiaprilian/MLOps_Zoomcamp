@@ -1,8 +1,9 @@
-import os, datetime
+import os, datetime, sys
 import pandas as pd
 import numpy as np
 from prophet import Prophet
 import statsmodels.api as sm
+import pickle
 
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -13,7 +14,8 @@ import plotly.express as px
 
 def get_paths() -> str:
     PATH_CURRENT = Path.cwd()
-    NEW_PATH = os.path.join(PATH_CURRENT.parents[1], "data", "uk_house_price")
+    NEW_PATH = os.path.join(PATH_CURRENT.parents[3], "data", "uk_house_price")
+    # DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
     DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
@@ -55,15 +57,51 @@ def forecast_prophet(df: pd.DataFrame):
     m.plot(forecast)
     m.plot_components(forecast)
 
+def data_split(df: pd.DataFrame, region_input: str, split_date: str):
+    df = df[df["Region_Name"] == region_input]
+
+    df_train = df.loc[df["Date"] <= split_date].copy()
+    df_test = df.loc[df["Date"] > split_date].copy()
+    df_train = df_train[["Date", "Average_Price"]].rename(
+        columns={"Date": "ds", "Average_Price": "y"}
+    )
+    df_test = df_test[["Date", "Average_Price"]].rename(
+        columns={"Date": "ds", "Average_Price": "y"}
+    )
+
+    return df_train, df_test
+
+def train_data(df_train: pd.DataFrame, region_input: str):
+    model = Prophet()
+    model.fit(df_train)
+
+    return model
+
+def evaluation(df_test: pd.DataFrame, model):
+    y_predict = model.predict(df_test)
+    return y_predict
 
 def main():
-    # mlflow.set_tracking_uri("sqlite:///mlflow_prefect.db")
-    # mlflow.set_experiment("prefect-experiment")
     data_path = get_paths()
     df = read_data(data_path)
-    newcastle = decompose(df, "Newcastle upon Tyne")
+    region = sys.argv[1] # "Oxford"
+    date = sys.argv[2] # "2019-01-01"
 
-    newcastle_forecast = forecast_prophet(newcastle)
+    print(f"Splitting time-series of data slices of {region}...")    
+    df_train, df_test = data_split(df, region, date)
+    print(f"Training prophet model on train set...")
+    model = train_data(df_train, region)
+    print(f"Training finishes, proceed to evaluation...")
+    y_predict = evaluation(df_test, model)
+    y_hat=  y_predict["yhat"]
+    y_hat_upper = y_predict["yhat_upper"]
+    y_hat_lower = y_predict["yhat_lower"]
+    print(f"""Prediction: yhat = {y_hat}; 
+                yhat_upper = {y_hat_upper}; yhat_lower = {y_hat_lower}""")
+
+    MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_{region}.bin')
+    with open(MODEL_FILE, 'wb') as f_in:
+        pickle.dump(obj=model, file=f_in)
 
 
 if __name__ == "__main__":
