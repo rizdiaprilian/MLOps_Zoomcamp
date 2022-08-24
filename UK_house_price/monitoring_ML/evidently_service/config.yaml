@@ -1,0 +1,23 @@
+datasets:
+  uk_house_price:
+    column_mapping:
+      categorical_features:
+        - 'Area_Code'
+      numerical_features:
+        - 'Average_Price'
+        - 'Monthly_Change'
+        - 'Annual_Change'
+    data_format:
+      header: true
+      separator: ','
+    monitors:
+      - data_drift
+    # reference_file: ./datasets/green_tripdata_2021-04.parquet
+    reference_file: ./datasets/Average_price-2022-06_from1995.csv
+service:
+  calculation_period_sec: 2
+  min_reference_size: 30
+  moving_reference: false
+  datasets_path: datasets
+  use_reference: true
+  window_size: 5
