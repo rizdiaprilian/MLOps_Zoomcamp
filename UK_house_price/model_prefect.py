@@ -1,4 +1,4 @@
-import os, datetime
+import os, sys, datetime
 import pandas as pd
 import numpy as np
 from prophet import Prophet
@@ -11,7 +11,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 import mlflow
-import prefect
 from prefect import task, flow, get_run_logger
 from prefect.task_runners import SequentialTaskRunner
 
@@ -19,8 +18,9 @@ from prefect.task_runners import SequentialTaskRunner
 @task(name="get-path-task")
 def get_paths() -> str:
     PATH_CURRENT = Path.cwd()
-    NEW_PATH = os.path.join(PATH_CURRENT.parents[1], "data", "uk_house_price")
-    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
+    NEW_PATH = os.path.join(PATH_CURRENT.parents[3], "data", "uk_house_price")
+    # DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
+    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
 
@@ -67,9 +67,9 @@ def forecast_prophet(df: pd.DataFrame):
 
 
 @task(name="divide-data")
-def data_split(df: pd.DataFrame, region_input: str):
+def data_split(df: pd.DataFrame, region_input: str, split_date: str):
     df = df[df["Region_Name"] == region_input]
-    split_date = "2018-01-01"
+    # split_date = "2018-01-01"
     df_train = df.loc[df["Date"] <= split_date].copy()
     df_test = df.loc[df["Date"] > split_date].copy()
     df_train = df_train[["Date", "Average_Price"]].rename(
@@ -136,20 +136,20 @@ def evaluation(df_test: pd.DataFrame, model):
 
 
 @flow(name="UK-house-price-flow")
-def main(region=None):
+def main():
     mlflow.set_tracking_uri("sqlite:///mlflow_uk_house.db")
     mlflow.set_experiment("UK_forecasting")
     data_path = get_paths()
     df = read_data(data_path)
-    # newcastle = decompose(df, region)
-    # newcastle_forecast = forecast_prophet(newcastle)
+    region = sys.argv[1] # "Oxford"
+    date = sys.argv[2] # "2019-01-01"
 
     with mlflow.start_run(run_name="Prophet_forecasting"):
         
         mlflow.set_tag("Region", region)
-        newcastle_train, newcastle_test = data_split(df, region)
-        model = train_data(newcastle_train, region)
-        y_predict = evaluation(newcastle_test, model)
+        df_train, df_test = data_split(df, region, date)
+        model = train_data(df_train, region)
+        y_predict = evaluation(df_test, model)
         mlflow.log_metric("yhat_lower", max(y_predict["yhat_lower"]))
         mlflow.log_metric("yhat_upper", max(y_predict["yhat_upper"]))
 
@@ -163,4 +163,4 @@ def main(region=None):
 
 
 if __name__ == "__main__":
-    main("Manchester")
+    main()
