@@ -4,6 +4,8 @@
 
 The practical implementation of MLOps on real-world case is showcased in this repository. UK house price is chosen as the center of project on the grounds many concerns of surge in property.
 
+Link on description about [UK house price](https://www.gov.uk/government/publications/about-the-uk-house-price-index/about-the-uk-house-price-index)
+[Report and download links](https://www.gov.uk/government/collections/uk-house-price-index-reports-2022)
 
 So far, we have managed to register machine learning in MLFlow as well as writing script to be orchestrated and ready for production. This step will bring further the model to be able to respond from given request in environment: deployment.
 
