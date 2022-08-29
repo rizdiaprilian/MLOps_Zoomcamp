@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - evidently_service
-      # - mongo
+      - mongo
     environment:
       EVIDENTLY_SERVICE: "http://evidently_service.:8085"
       MONGODB_ADDRESS: "mongodb://mongo.:27017/"
