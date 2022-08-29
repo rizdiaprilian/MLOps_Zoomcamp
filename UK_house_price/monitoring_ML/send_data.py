@@ -8,7 +8,7 @@ import pyarrow.parquet as pq
 import requests
 
 tabel = pd.read_csv("Average_price-2022-06_from1995.csv")
-tabel = tabel[tabel["Region_Name"] == "Kent"]
+tabel = tabel[tabel["Region_Name"] == "Oxford"]
 data2 = pa.Table.from_pandas(tabel).to_pylist()
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -35,18 +35,3 @@ with open("target.csv", 'w') as f_target:
 
         print(f"prediction: {resp['y_hat']} with lower limit {resp['y_hat_lower']} and upper limit {resp['y_hat_upper']}")
         sleep(1)
-
-
-# for row in data2:
-#     row['id'] = str(uuid.uuid4())
-#     del row['Unnamed: 0']
-#     del row['__index_level_0__']
-#     target = row['Average_Price']
-#     row['ds'] = row['Date']
-#     row['y'] = row['Average_Price']
-#     dict2 = {x:[row[x]] for x in keys}
-#     print(row)
-#     print("========")
-#     print(dict2)
-#     print("+++++++++++++")
-#     sleep(1)
