@@ -198,11 +198,20 @@ def configure_service():
     for dataset_name, dataset_options in config["datasets"].items():
         reference_file = dataset_options['reference_file']
         logging.info(f"Load reference data for dataset {dataset_name} from {reference_file}")
-        reference_data = pq.read_table(reference_file).to_pandas()
-        ## Put preprocessing code below ##
-        reference_data['duration'] = reference_data.lpep_dropoff_datetime - reference_data.lpep_pickup_datetime
-        reference_data.duration = reference_data.duration.apply(lambda td: td.total_seconds() / 60)
-        reference_data = reference_data[(reference_data.duration >= 1) & (reference_data.duration <= 60)]
+
+        df = pd.read_csv(reference_file)
+        col1 = ["Average_Price", "Average_Price_SA"]
+        col2 = ["Monthly_Change", "Annual_Change"]
+    
+        df2 = df.drop("Unnamed: 0", axis=1)
+        df2["Date"] = pd.to_datetime(df2.Date)
+        df2[col1] = df2[col1].astype("float32")
+        df2[col2] = df2[col2].astype("float16")
+        df2 = df2[df2["Region_Name"] == "Oxford"]
+        df2["ds"] = df2["Date"]
+        df2["y"] = df2["Average_Price"]
+        reference_data = df2.copy()
+        
         ##### End ####
         datasets[dataset_name] = LoadedDataset(
             name=dataset_name,
@@ -222,7 +231,7 @@ def iterate(dataset: str):
     global SERVICE
     if SERVICE is None:
         return "Internal Server Error: service not found", 500
-
+    logging.info(f"Show dataframe {pd.DataFrame.from_dict(item)}")
     SERVICE.iterate(dataset_name=dataset, new_rows=pd.DataFrame.from_dict(item))
     return "ok"
 

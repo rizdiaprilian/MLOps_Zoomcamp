@@ -5,53 +5,69 @@ import requests
 from flask import Flask
 from flask import request
 from flask import jsonify
-
+import pandas as pd
+from prophet import Prophet
 from pymongo import MongoClient
 
 
-MODEL_FILE = os.getenv('MODEL_FILE', 'lin_reg.bin')
+MODEL_FILE = os.getenv('MODEL_FILE', 'model_prophet_Oxford.bin')
 
 EVIDENTLY_SERVICE_ADDRESS = os.getenv('EVIDENTLY_SERVICE', 'http://127.0.0.1:5000')
 MONGODB_ADDRESS = os.getenv("MONGODB_ADDRESS", "mongodb://127.0.0.1:27017")
 
 with open(MODEL_FILE, 'rb') as f_in:
-    dv, model = pickle.load(f_in)
+    model = pickle.load(f_in)
 
 
-app = Flask('duration')
+app = Flask('price-forecasting')
 mongo_client = MongoClient(MONGODB_ADDRESS)
 db = mongo_client.get_database("prediction_service")
-collection = db.get_collection("data")
+collection = db.get_collection("data_forecasting")
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
     record = request.get_json()
+    key_features = ['ds', 'y']
+    dict2 = {x:[record[x]] for x in key_features}
 
-    record['PU_DO'] = '%s_%s' % (record['PULocationID'], record['DOLocationID'])
 
-    X = dv.transform([record])
-    y_pred = model.predict(X)
+    feature_df = pd.DataFrame.from_dict(dict2)
+    y_pred = model.predict(feature_df)
+    pred = y_pred.to_dict("records")
 
     result = {
-        'duration': float(y_pred),
+        'y_hat': pred[0]['yhat'],
+        'y_hat_lower' : pred[0]['yhat_lower'],
+        'y_hat_upper' : pred[0]['yhat_upper'],
     }
 
-    save_to_db(record, float(y_pred))
-    send_to_evidently_service(record, float(y_pred))
+    rec = record.copy()
+    rec['pred'] = result['y_hat']
+    rec['pred_low'] = result['y_hat_lower']
+    rec['pred_high'] = result['y_hat_upper']
+
+    print(rec)
+    ## Change from features dict to records dict
+    save_to_db(record, result['y_hat'], result['y_hat_lower'], result['y_hat_upper'])
+    send_to_evidently_service(record, result['y_hat'], result['y_hat_lower'], result['y_hat_upper'])
     return jsonify(result)
 
-
-def save_to_db(record, prediction):
+## Saving to MongoDB
+def save_to_db(record, prediction, pred_low, pred_high):
     rec = record.copy()
-    rec['prediction'] = prediction
+    rec['pred'] = prediction
+    rec['pred_low'] = pred_low
+    rec['pred_high'] = pred_high
     collection.insert_one(rec)
 
-
-def send_to_evidently_service(record, prediction):
+# ## Saving to Evidently for monitoring
+def send_to_evidently_service(record, prediction, pred_low, pred_high):
     rec = record.copy()
-    rec['prediction'] = prediction
-    requests.post(f"{EVIDENTLY_SERVICE_ADDRESS}/iterate/taxi", json=[rec])
+    rec['pred'] = prediction
+    rec['pred_low'] = pred_low
+    rec['pred_high'] = pred_high
+    requests.post(f"{EVIDENTLY_SERVICE_ADDRESS}/iterate/uk_house_price", json=[rec])
 
 
 if __name__ == "__main__":

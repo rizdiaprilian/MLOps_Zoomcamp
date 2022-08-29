@@ -11,6 +11,7 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install evidently
 
 COPY app.py .
-COPY lin_reg.bin .
+# COPY lin_reg.bin .
+COPY model_prophet_Oxford.bin .
 
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=9696"]
