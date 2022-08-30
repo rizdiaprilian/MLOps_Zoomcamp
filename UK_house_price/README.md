@@ -30,6 +30,8 @@ Prophet is used to capture forecasting capability on increasing trend of UK hous
 
 The baseline workflow descripted above is then furtherly enhanced MLFlow paired with AWS EC2 and S3 that give the experiment degrees of reproducibility and greater range of tracking capability. Database to store information comprises of inference metrics and parameters is SQLite; Orchestration agent to manage of running smaller unit functions is Prefect Orion.
 
+Experiment in Jupyter Notebook  (https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/mlflow_experiment.ipynb)
+One the other tab, start mlflow with command `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db --default-artifact-root s3://mlopszoomcamp-bucket`
 A file that covers tasks and flow of experimenting machine learning producing artifact prophet logs is presented [here](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py)
 
 ## **Monitoring Strategy**
@@ -39,4 +41,10 @@ A file that covers tasks and flow of experimenting machine learning producing ar
 
 Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section.
 
-Prediction Service
+## **Prediction Service**
+This directory serves in sending prediction to Evidently and MongoDB in flask environment.
+
+![image](https://user-images.githubusercontent.com/42743243/187480016-449a5d51-b56d-4017-8606-0332cb01164d.png)
+
+
+
