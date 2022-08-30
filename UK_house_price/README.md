@@ -39,12 +39,13 @@ A file that covers tasks and flow of experimenting machine learning producing ar
 
 - Online Monitoring: This service generates predictions after receiving requests. A downside is that the service needs to fulfill the requirement of running model in prolonged period until the change notice is issued.  
 
-Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section.
+Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section. Both online and batch monitors are used in this project.
 
 ## **Prediction Service**
-This directory serves in sending prediction to Evidently and MongoDB in flask environment.
+This service generates predictions on requested rows delivered by`send_data.py` and submit them to Evidently and MongoDB.  
 
-![image](https://user-images.githubusercontent.com/42743243/187480016-449a5d51-b56d-4017-8606-0332cb01164d.png)
+![image](https://user-images.githubusercontent.com/42743243/187480203-91ea5fdd-1b90-4f3d-8e5c-f698453de426.png)
+
 
 
 
