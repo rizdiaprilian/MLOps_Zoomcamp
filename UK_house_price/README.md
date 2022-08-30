@@ -19,7 +19,15 @@ The practice follows the same order as what we have been learning in week term. 
 - Deployment from AWS S3 and MLFlow with Flask application
 - Monitoring with MongoDB, Evidently
 
+## **Prophet Model**
+
+Prophet is used to capture forecasting capability on increasing trend of UK house price. 
+
+[model_generation](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_learn.py)
+
 ## **Monitoring Strategy**
 - Batch Monitoring: Predictions are generated in batch within specified interval, e.g. every six hours, every day, or monthly basis. Common use cases utilizing batch prediction includes collaborative filtering, content-based recommendations. Running app from prediction service sends input merged with generated output in JSON format to the Mongo DB. Data stored within MongoDB is transformed into pandas format and is compared with reference data loaded directly from csv file. A program incorporating prediction pipeline and drift calculation takes both reference and current data to be compared on the grounds of selected features with the use of `ColumnMapping`. The task is separably manageable on each running function with Prefect Orion.
 
 - Online Monitoring: This service generates predictions after receiving requests. A downside is that the service needs to fulfill the requirement of running model in prolonged period until the change notice is issued.  
+
+Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section.
