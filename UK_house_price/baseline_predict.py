@@ -1,15 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-import os, pickle, sys
+import os, sys
+from pathlib import Path
 import pandas as pd
 from pandas import Timestamp
-from pathlib import Path
-import mlflow
 from prophet import Prophet
+import pickle
 
 
 def load_model(region: str):
+    '''Loading model from previously trained Prophet model'''
     MODEL_FILE = os.getenv('MODEL_FILE', f'models/model_prophet_{region}.bin')
     with open(MODEL_FILE, 'rb') as f_in:
         model = pickle.load(f_in)
@@ -17,9 +15,10 @@ def load_model(region: str):
 
 
 def read_data(input_file):
+    '''Reading data from given path'''
     col1 = ["Average_Price", "Average_Price_SA"]
     col2 = ["Monthly_Change", "Annual_Change"]
-    print(f'Reading data ...')
+    print('Reading data ...')
     df = pd.read_csv(input_file)
     df2 = df.drop("Unnamed: 0", axis=1)
     df2["Date"] = pd.to_datetime(df2.Date)
@@ -28,6 +27,7 @@ def read_data(input_file):
     return df2
 
 def take_data(input_file, region_input: str, date: str):
+    '''Preparing test data after reading data'''
     df = read_data(input_file)
     print(f'Preparing data on region {region_input}...')
     df = df[df["Region_Name"] == region_input]
@@ -40,22 +40,23 @@ def take_data(input_file, region_input: str, date: str):
 
 
 def evaluation(df_test: pd.DataFrame, region: str):
+    '''Generalizing testing data with trained Prophet model'''
     model = load_model(region)
-    print(f'Predicting model ...')
+    print('Predicting model ...')
     y_predict = model.predict(df_test)
 
     return y_predict
 
 def merge_result(y_hat, df_test, output_file, run_id):
+    '''Merging prediction result with test data'''
     df_result = pd.merge_asof(y_hat, df_test, on="ds")
     df_result['diff'] = df_result['y'] - df_result['yhat']
     df_result['model_version'] = run_id
-    print(f'Saving results to parquet ...')
+    print('Saving results to parquet ...')
     df_result.to_parquet(output_file, index=False)
 
 
 def main():
-
     region = sys.argv[1] # "Oxford"
     date = sys.argv[2] # "2019-01-01"
 

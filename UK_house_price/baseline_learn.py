@@ -1,20 +1,20 @@
-import os, datetime, sys
-import pandas as pd
-import numpy as np
-from prophet import Prophet
-import statsmodels.api as sm
-import pickle
-
+import os, sys
 from pathlib import Path
+import statsmodels.api as sm
+import pandas as pd
+from prophet import Prophet
+import pickle
 
 
 def get_paths() -> str:
+    '''Returning path to dataset in string format'''
     PATH_CURRENT = Path.cwd()
     DATA_PATH = os.path.join(PATH_CURRENT, "data", "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
 
 def read_data(path: str) -> pd.DataFrame:
+    '''Reading data from given path'''
     df = pd.read_csv(path)
     df2 = df.drop("Unnamed: 0", axis=1)
     df2["Date"] = pd.to_datetime(df2.Date)
@@ -26,6 +26,7 @@ def read_data(path: str) -> pd.DataFrame:
 
 
 def decompose(df: pd.DataFrame, region_input: str):
+    '''Breakdown of seasonal decomposition of time-series'''
     region_place = df[df["Region_Name"] == region_input]
     region_mean_price = region_place.groupby("Date")["Average_Price"].max()
     decomposition = sm.tsa.seasonal_decompose(region_mean_price, model="additive")
@@ -35,6 +36,7 @@ def decompose(df: pd.DataFrame, region_input: str):
 
 
 def forecast_prophet(df: pd.DataFrame):
+    '''Fitting Prophet model to dataframe and generating forecasting graphs'''
     # Prepare the data in pandas dataframe
     model_df = pd.DataFrame(df).reset_index()
     model_df = model_df.rename(columns={"Date": "ds", "Average_Price": "y"})
@@ -52,6 +54,7 @@ def forecast_prophet(df: pd.DataFrame):
     m.plot_components(forecast)
 
 def data_split(df: pd.DataFrame, region_input: str, split_date: str):
+    '''Splitting data based on input region and date'''
     df = df[df["Region_Name"] == region_input]
 
     df_train = df.loc[df["Date"] <= split_date].copy()
@@ -66,12 +69,14 @@ def data_split(df: pd.DataFrame, region_input: str, split_date: str):
     return df_train, df_test
 
 def train_data(df_train: pd.DataFrame):
+    '''Fitting Prophet model to training data'''
     model = Prophet()
     model.fit(df_train)
 
     return model
 
 def evaluation(df_test: pd.DataFrame, model):
+    '''Generalizing testing data with trained Prophet model'''
     y_predict = model.predict(df_test)
     return y_predict
 
@@ -83,9 +88,9 @@ def main():
 
     print(f"Splitting time-series of data slices of {region}...")    
     df_train, df_test = data_split(df, region, date)
-    print(f"Training prophet model on train set...")
+    print("Training prophet model on train set...")
     model = train_data(df_train)
-    print(f"Training finishes, proceed to evaluation...")
+    print("Training finishes, proceed to evaluation...")
     y_predict = evaluation(df_test, model)
     y_hat=  y_predict["yhat"]
     y_hat_upper = y_predict["yhat_upper"]

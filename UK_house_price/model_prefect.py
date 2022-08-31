@@ -5,10 +5,10 @@ from prophet import Prophet
 import statsmodels.api as sm
 
 from pathlib import Path
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.graph_objects as go
-import plotly.express as px
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# import plotly.graph_objects as go
+# import plotly.express as px
 
 import mlflow
 from prefect import task, flow, get_run_logger
@@ -17,15 +17,15 @@ from prefect.task_runners import SequentialTaskRunner
 
 @task(name="get-path-task")
 def get_paths() -> str:
+    '''Returning path to dataset in string format'''
     PATH_CURRENT = Path.cwd()
-    NEW_PATH = os.path.join(PATH_CURRENT.parents[3], "data", "uk_house_price")
-    # DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
-    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
+    DATA_PATH = os.path.join(PATH_CURRENT, "data", "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
 
 @task(name="read-csv-task")
 def read_data(path: str) -> pd.DataFrame:
+    '''Reading data from given path'''
     logger = get_run_logger()
     logger.info("INFO reading csv files.")
     df = pd.read_csv(path)
@@ -40,6 +40,7 @@ def read_data(path: str) -> pd.DataFrame:
 
 @task(name="decompose-time-series")
 def decompose(df: pd.DataFrame, region_input: str):
+    '''Breakdown of seasonal decomposition of time-series'''
     region_place = df[df["Region_Name"] == region_input]
     region_mean_price = region_place.groupby("Date")["Average_Price"].max()
     decomposition = sm.tsa.seasonal_decompose(region_mean_price, model="additive")
@@ -50,6 +51,7 @@ def decompose(df: pd.DataFrame, region_input: str):
 
 @task(name="forecast-prophet")
 def forecast_prophet(df: pd.DataFrame):
+    '''Fitting Prophet model to dataframe and generating forecasting graphs'''
     # Prepare the data in pandas dataframe
     model_df = pd.DataFrame(df).reset_index()
     model_df = model_df.rename(columns={"Date": "ds", "Average_Price": "y"})
@@ -68,6 +70,7 @@ def forecast_prophet(df: pd.DataFrame):
 
 @task(name="divide-data")
 def data_split(df: pd.DataFrame, region_input: str, split_date: str):
+    '''Splitting data based on input region and date'''
     df = df[df["Region_Name"] == region_input]
     # split_date = "2018-01-01"
     df_train = df.loc[df["Date"] <= split_date].copy()
@@ -84,6 +87,7 @@ def data_split(df: pd.DataFrame, region_input: str, split_date: str):
 
 @task(name="train-data")
 def train_data(df_train: pd.DataFrame, region_input: str):
+    '''Fitting Prophet model to training data'''
     logger = get_run_logger()
 
     model = Prophet()
@@ -113,6 +117,7 @@ def train_data(df_train: pd.DataFrame, region_input: str):
 
 @task(name="Forecast-test-data")
 def evaluation(df_test: pd.DataFrame, model):
+    '''Generalizing testing data with trained Prophet model'''
     logger = get_run_logger()
     logger.info("INFO running model.")
 
