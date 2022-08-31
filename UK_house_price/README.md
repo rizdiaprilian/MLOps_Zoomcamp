@@ -18,3 +18,34 @@ The practice follows the same order as what we have been learning in week term. 
 - Orchestration with Prefect Orion (Prefect 2.0.3 is used here)
 - Deployment from AWS S3 and MLFlow with Flask application
 - Monitoring with MongoDB, Evidently
+
+## **Prophet Model**
+
+Prophet is used to capture forecasting capability on increasing trend of UK house price. Provided below are training and prediction at baseline stage.
+
+1) Baseline learning and [model_generation](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_learn.py)
+2) [Baseline prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_predict.py)
+
+## **Experimentation**
+
+The baseline workflow descripted above is then furtherly enhanced MLFlow paired with AWS EC2 and S3 that give the experiment degrees of reproducibility and greater range of tracking capability. Database to store information comprises of inference metrics and parameters is SQLite; Orchestration agent to manage of running smaller unit functions is Prefect Orion.
+
+Experiment in Jupyter Notebook  (https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/mlflow_experiment.ipynb)
+One the other tab, start mlflow with command `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db --default-artifact-root s3://mlopszoomcamp-bucket`
+A file that covers tasks and flow of experimenting machine learning producing artifact prophet logs is presented [here](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py)
+
+## **Monitoring Strategy**
+- Batch Monitoring: Predictions are generated in batch within specified interval, e.g. every six hours, every day, or monthly basis. Common use cases utilizing batch prediction includes collaborative filtering, content-based recommendations. Running app from prediction service sends input merged with generated output in JSON format to the Mongo DB. Data stored within MongoDB is transformed into pandas format and is compared with reference data loaded directly from csv file. A program incorporating prediction pipeline and drift calculation takes both reference and current data to be compared on the grounds of selected features with the use of `ColumnMapping`. The task is separably manageable on each running function with Prefect Orion.
+
+- Online Monitoring: This service generates predictions after receiving requests. A downside is that the service needs to fulfill the requirement of running model in prolonged period until the change notice is issued.  
+
+Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section. Both online and batch monitors are used in this project.
+
+## **Prediction Service**
+This service generates predictions on requested rows delivered by`send_data.py` and submit them to Evidently and MongoDB.  
+
+![image](https://user-images.githubusercontent.com/42743243/187480203-91ea5fdd-1b90-4f3d-8e5c-f698453de426.png)
+
+
+
+
