@@ -10,6 +10,8 @@ gunicorn = "*"
 waitress = "*"
 mlflow = "*"
 prefect = "==2.0.3"
+boto3 = "*"
+prophet = "*"
 
 [dev-packages]
 requests = "*"
