@@ -1,14 +1,9 @@
 import os, sys, datetime
 import pandas as pd
-import numpy as np
 from prophet import Prophet
 import statsmodels.api as sm
 
 from pathlib import Path
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# import plotly.graph_objects as go
-# import plotly.express as px
 
 import mlflow
 from prefect import task, flow, get_run_logger
@@ -143,7 +138,10 @@ def evaluation(df_test: pd.DataFrame, model):
 @flow(name="UK-house-price-flow")
 def main():
     mlflow.set_tracking_uri("sqlite:///mlflow_uk_house.db")
-    mlflow.set_experiment("UK_forecasting")
+    ### Create new experiment with S3 to keep learning information inside S3 bucket
+    # s3_bucket = "s3://mlopszoomcamp-bucket/UK_house_price/"
+    # mlflow.create_experiment("UK_house_price_forecasting", s3_bucket)
+    mlflow.set_experiment("UK_house_price_forecasting")
     data_path = get_paths()
     df = read_data(data_path)
     region = sys.argv[1] # "Oxford"
@@ -152,6 +150,7 @@ def main():
     with mlflow.start_run(run_name="Prophet_forecasting"):
         
         mlflow.set_tag("Region", region)
+        mlflow.set_tag("Split Date", date)
         df_train, df_test = data_split(df, region, date)
         model = train_data(df_train, region)
         y_predict = evaluation(df_test, model)
