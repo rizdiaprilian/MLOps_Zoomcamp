@@ -10,7 +10,7 @@ from prophet import Prophet
 
 
 def load_model(region: str):
-    MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_{region}.bin')
+    MODEL_FILE = os.getenv('MODEL_FILE', f'models/model_prophet_{region}.bin')
     with open(MODEL_FILE, 'rb') as f_in:
         model = pickle.load(f_in)
     return model
@@ -59,7 +59,7 @@ def main():
     region = sys.argv[1] # "Oxford"
     date = sys.argv[2] # "2019-01-01"
 
-    NEW_PATH = os.path.join(Path.cwd().parents[3],"data","uk_house_price")
+    NEW_PATH = os.path.join(Path.cwd(),"data")
     input_file = os.path.join(NEW_PATH, 'Average_price-2022-06_from1995.csv')
     ### Folder `output` must exist before running this file
 

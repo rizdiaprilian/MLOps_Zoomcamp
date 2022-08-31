@@ -6,17 +6,11 @@ import statsmodels.api as sm
 import pickle
 
 from pathlib import Path
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.graph_objects as go
-import plotly.express as px
 
 
 def get_paths() -> str:
     PATH_CURRENT = Path.cwd()
-    NEW_PATH = os.path.join(PATH_CURRENT.parents[3], "data", "uk_house_price")
-    # DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-02_from2000.csv")
-    DATA_PATH = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
+    DATA_PATH = os.path.join(PATH_CURRENT, "data", "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
 
@@ -71,7 +65,7 @@ def data_split(df: pd.DataFrame, region_input: str, split_date: str):
 
     return df_train, df_test
 
-def train_data(df_train: pd.DataFrame, region_input: str):
+def train_data(df_train: pd.DataFrame):
     model = Prophet()
     model.fit(df_train)
 
@@ -90,7 +84,7 @@ def main():
     print(f"Splitting time-series of data slices of {region}...")    
     df_train, df_test = data_split(df, region, date)
     print(f"Training prophet model on train set...")
-    model = train_data(df_train, region)
+    model = train_data(df_train)
     print(f"Training finishes, proceed to evaluation...")
     y_predict = evaluation(df_test, model)
     y_hat=  y_predict["yhat"]
@@ -99,7 +93,7 @@ def main():
     print(f"""Prediction: yhat = {y_hat}; 
                 yhat_upper = {y_hat_upper}; yhat_lower = {y_hat_lower}""")
 
-    MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_{region}.bin')
+    MODEL_FILE = os.getenv('MODEL_FILE', f'models/model_prophet_{region}.bin')
     with open(MODEL_FILE, 'wb') as f_in:
         pickle.dump(obj=model, file=f_in)
 
