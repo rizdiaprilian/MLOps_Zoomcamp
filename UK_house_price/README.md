@@ -12,6 +12,8 @@ The aiming from working on this problem is to predict the volatility of surging 
   - y_hat_lower: lower bound
   - y_hat_upper: upper bound 
 
+Prophet is used to meet its forecasting purpose. The information about Prophet is provided [here](https://github.com/facebook/prophet) 
+
 
 ## **Initialization**
 
