@@ -1,15 +1,17 @@
-### Project: UK House Price ###
+# **MLOps Final Project: UK House Price**
 
-# **UK House Price**
+## **Problem Statement**
 
-The practical implementation of MLOps on real-world case is showcased in this repository. UK house price is chosen as the center of project on the grounds many concerns of surge in property.
+The practical implementation of MLOps to real-world case is showcased in this repository. UK house price is chosen as the center of project given the fact that the surge in property price in the UK raises concerns among public.
 
 Link on description about [UK house price](https://www.gov.uk/government/publications/about-the-uk-house-price-index/about-the-uk-house-price-index)
-[Report and download links](https://www.gov.uk/government/collections/uk-house-price-index-reports-2022)
+The data source is available in [report and download links](https://www.gov.uk/government/collections/uk-house-price-index-reports-2022)
 
-So far, we have managed to register machine learning in MLFlow as well as writing script to be orchestrated and ready for production. This step will bring further the model to be able to respond from given request in environment: deployment.
+The aiming from working on this problem is to predict the volatility of surging prices within a period between January 2019 and June 2022. Metric used are:
+  - y_hat: forecasting estimation 
+  - y_hat_lower: lower bound
+  - y_hat_upper: upper bound 
 
-Setup preparation for model deployment can be done either in batch (offline) that allow prediction on newly unseen data arrives in periodic schedule or in real-time streaming (online) that the model always runs to serve anytime. 
 
 ## **Initialization**
 
@@ -19,14 +21,14 @@ The practice follows the same order as what we have been learning in week term. 
 - Deployment from AWS S3 and MLFlow with Flask application
 - Monitoring with MongoDB, Evidently
 
-## **Prophet Model**
+## **Fitting Prophet Model**
 
 Prophet is used to capture forecasting capability on increasing trend of UK house price. Provided below are training and prediction at baseline stage.
 
 1) Baseline learning and [model_generation](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_learn.py). This file will generate a model trained on a specified region after splitted under a given date and it is stored inside directory `models`. For example, command `python baseline_learn.py Oxford "2019-01-01"` will generate `models_prophet_Oxford.bin` 
 2) Then run the prediction on a selected region with [Baseline prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_predict.py), e.g. `python baseline_predict.py Oxford "2019-01-01`.
 
-## **Experimentation**
+## **MLFlow Experimentation**
 
 The baseline workflow descripted above is then furtherly enhanced MLFlow paired with AWS EC2 and S3 that give the experiment degrees of reproducibility and greater range of tracking capability. Database to store information comprises of inference metrics and parameters is SQLite; Orchestration agent to manage of running smaller unit functions is Prefect Orion.
 
