@@ -6,9 +6,9 @@ from mlflow.tracking import MlflowClient
 from flask import Flask, request, jsonify
 
 
-RUN_ID = os.getenv('RUN_ID')
-S3_BUCKET = os.getenv('S3_BUCKET')
-REGION = os.getenv('REGION')
+RUN_ID = os.getenv('RUN_ID', "yourrunid")
+S3_BUCKET = os.getenv('S3_BUCKET', "mlopszoomcamp-bucket")
+REGION = os.getenv('REGION', "Oxford")
 ### with MLFLow tracking server ###
 # RUN_ID = "run_id"
 # MLFLOW_TRACKING_URI = "public IPv4 DNS"
