@@ -7,8 +7,8 @@ from flask import Flask, request, jsonify
 import boto3
 
 
-ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID', "AKIARBMT65NSJIDOVSB3")
-SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', "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")
+ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID', "")
+SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', "")
 client = boto3.client(
     's3',
     aws_access_key_id=ACCESS_KEY,
