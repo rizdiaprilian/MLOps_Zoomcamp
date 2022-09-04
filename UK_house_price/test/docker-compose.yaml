@@ -5,10 +5,12 @@ services:
       - "8080:8080"
     environment:
       - PREDICTION_NAME=UK_house_price
-      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_DEFAULT_REGION=eu-west-2
       - MODEL_LOCATION=/app/model
       - TEST_RUN=True
-      - RUN_ID=uibg329rg9bwwegwrg
+      - RUN_ID=a83db8840d254e9095dfe0ed2bc92158
+      - AWS_ACCESS_KEY_ID=AKIARBMT65NSJIDOVSB3
+      - AWS_SECRET_ACCESS_KEY=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
 
     volumes:
       - "./model:/app/model"

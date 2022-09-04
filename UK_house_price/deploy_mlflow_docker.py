@@ -4,6 +4,16 @@ import pandas as pd
 import mlflow
 from mlflow.tracking import MlflowClient
 from flask import Flask, request, jsonify
+import boto3
+
+
+ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID', "AKIARBMT65NSJIDOVSB3")
+SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', "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")
+client = boto3.client(
+    's3',
+    aws_access_key_id=ACCESS_KEY,
+    aws_secret_access_key=SECRET_KEY
+)
 
 
 RUN_ID = os.getenv('RUN_ID', "a83db8840d254e9095dfe0ed2bc92158")
