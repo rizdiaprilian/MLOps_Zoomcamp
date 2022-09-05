@@ -6,10 +6,9 @@ LOCAL_TAG=`date +"%Y-%m-%d-%H-%M-%S"`
 export LOCAL_IMAGE_NAME="uk-house-model:${LOCAL_TAG}"
 
 ## Docker test
-docker build --tag python-docker .
 docker build --tag uk-house-price:v2 ..
 
-docker build -t ${LOCAL_IMAGE_NAME} ..
+docker build -t ${LOCAL_IMAGE_NAME} .
 
 docker run -it --rm \
     -p 8080:8080 \
@@ -18,10 +17,9 @@ docker run -it --rm \
     -e MODEL_LOCATION="/app/model" \
     -e TEST_RUN="True" \
     -e AWS_DEFAULT_REGION="eu-west-2" \
-    -e AWS_ACCESS_KEY_ID="AKIARBMT65NSJIDOVSB3"\
-    -e AWS_SECRET_ACCESS_KEY="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"\
+    -e AWS_ACCESS_KEY_ID="AKIARBMT65NSALJFY5NC"\
+    -e AWS_SECRET_ACCESS_KEY="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"\
     -v $(pwd)/model:/app/model \
-    # ${LOCAL_IMAGE_NAME}
-    uk-house-price:v2
+    ${LOCAL_IMAGE_NAME}
 
 pipenv run python test_model.py

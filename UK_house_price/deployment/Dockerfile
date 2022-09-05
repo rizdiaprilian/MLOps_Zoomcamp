@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1.2
+FROM python:3.9.12-slim
+
+RUN pip install -U pip
+RUN pip install pipenv 
+
+WORKDIR /app
+
+COPY [ "Pipfile", "Pipfile.lock", "./" ]
+
+RUN pipenv install --system --deploy
+
+COPY [ "deploy_mlflow_docker.py", "model_prophet_Oxford.bin" , "./"]
+
+EXPOSE 9696
+
+ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "deploy_mlflow_docker:app" ]
+
+# CMD ["python", "deploy_mlflow_docker.py"]
