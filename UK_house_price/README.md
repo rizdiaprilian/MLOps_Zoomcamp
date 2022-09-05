@@ -52,17 +52,24 @@ prefect orion start --host 0.0.0.0
 3) Run the prediction [here](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py). Command `python model_prefect.py Oxford "2019-01-01"` generates an artifact with several logs along with parameters and forecasting metrics and the logged model can be used for deployment.
 
 ## **Deployment**
-
-### **MLFlow**
+Experiment results stored in s3 bucket can be recalled to be used for deploying Prophet in Flask environment. See directory `deployment` to see the structures.
+Steps to follow:
 1) Set environment variables.
 ```
 export RUN_ID="2a18236a06a346cd97a931f545d0be0f"
 export REGION="Liverpool"
 export S3_BUCKET="mlopszoomcamp-bucket"
 ```
-3) Launch flask application with command `deploy_mlflow.py` 
-4) See its response from flask with command `deploy_test.py`
+3) Launch flask application with command `python deploy_mlflow.py` 
+4) See its response from flask with command `python deploy_test.py`
 
+### **Deployment with Docker**
+It is also possible to make a docker image for very same purpose. A little difference is that docker-compose will make use of environment variables defined in `.env` when starting the image.
+
+1) Prepare required variables in `.env` then run command `docker build -t ${LOCAL_IMAGE_NAME} .` inside `deployment` directory. The image should be built there.
+2) Execute `docker-compose run` to start the image. 
+3) Execute `python deploy_test.py`
+4) If you wish to change, stop the image and replace values `RUN_ID` and `REGION` in `.env`. Then start the image again.
 
 ## **Monitoring Strategy**
 - Batch Monitoring: Predictions are generated in batch within specified interval, e.g. every six hours, every day, or monthly basis. Common use cases utilizing batch prediction includes collaborative filtering, content-based recommendations. Running app from prediction service sends input merged with generated output in JSON format to the Mongo DB. Data stored within MongoDB is transformed into pandas format and is compared with reference data loaded directly from csv file. A program incorporating prediction pipeline and drift calculation takes both reference and current data to be compared on the grounds of selected features with the use of `ColumnMapping`. The task is separably manageable on each running function with Prefect Orion.

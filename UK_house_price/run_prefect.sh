@@ -11,11 +11,11 @@ prefect orion start --host 0.0.0.0
 mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db --default-artifact-root s3://mlopszoomcamp-bucket
 
 ### Export tracking uri that takes the Public IP4v address
-export MLFLOW_TRACKING_URI="http://ec2-3-8-10-146.eu-west-2.compute.amazonaws.com:5000"
+export MLFLOW_TRACKING_URI="http://ec2-18-132-200-59.eu-west-2.compute.amazonaws.com:5000"
 
-### Alternatively start mlflow with this command 
+### Alternatively start mlflow with this command. Don't forget to exit from pipenv shell
 mlflow ui -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db \
         --default-artifact-root s3://mlopszoomcamp-bucket
 
 ### Copy this code to load MLFlow
-http://ec2-3-8-10-146.eu-west-2.compute.amazonaws.com:5000
+http://ec2-18-132-200-59.eu-west-2.compute.amazonaws.com:5000
