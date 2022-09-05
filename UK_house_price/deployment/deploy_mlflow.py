@@ -7,9 +7,9 @@ from flask import Flask, request, jsonify
 import boto3
 
 
-RUN_ID = os.getenv('RUN_ID', "a83db8840d254e9095dfe0ed2bc92158")
+RUN_ID = os.getenv('RUN_ID', "f54f4a4a4c524fb59c4a836146bee8af")
 S3_BUCKET = os.getenv('S3_BUCKET', "mlopszoomcamp-bucket")
-REGION = os.getenv('REGION', "Oxford")
+REGION = os.getenv('REGION', "Kent")
 ### with MLFLow tracking server ###
 # RUN_ID = "run_id"
 # MLFLOW_TRACKING_URI = "public IPv4 DNS"
