@@ -7,10 +7,10 @@ from datetime import datetime
 from botocore.exceptions import ClientError
 
 
-AWS_REGION = 'eu-west-2'
+AWS_REGION = ''
 ENDPOINT_URL = 'http://localhost:4566'
-ACCESS_KEY = "AKIARBMT65NSOGGBYJF2"
-SECRET_KEY = "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"
+ACCESS_KEY = ""
+SECRET_KEY = ""
 S3_ENDPOINT_URL = os.getenv('ENDPOINT_URL',"http://localhost:4566")
 
 
