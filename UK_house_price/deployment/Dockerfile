@@ -15,5 +15,3 @@ COPY [ "deploy_mlflow_docker.py", "model_prophet_Oxford.bin" , "./"]
 EXPOSE 9696
 
 ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "deploy_mlflow_docker:app" ]
-
-# CMD ["python", "deploy_mlflow_docker.py"]

@@ -10,11 +10,12 @@ prefect orion start --host 0.0.0.0
 ### Specifically for project UK_house_price
 mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db --default-artifact-root s3://mlopszoomcamp-bucket
 
-### Chance Public IP4v address each time EC2 runs each time
-http://ec2-3-8-10-146.eu-west-2.compute.amazonaws.com:5000
-
+### Export tracking uri that takes the Public IP4v address
 export MLFLOW_TRACKING_URI="http://ec2-3-8-10-146.eu-west-2.compute.amazonaws.com:5000"
 
 ### Alternatively start mlflow with this command 
 mlflow ui -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db \
         --default-artifact-root s3://mlopszoomcamp-bucket
+
+### Copy this code to load MLFlow
+http://ec2-3-8-10-146.eu-west-2.compute.amazonaws.com:5000

@@ -8,15 +8,7 @@ import pickle
 import pandas as pd
 import boto3
 
-# ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID', "AKIARBMT65NSJIDOVSB3")
-# SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', "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")
-# client = boto3.client(
-#     's3',
-#     aws_access_key_id=ACCESS_KEY,
-#     aws_secret_access_key=SECRET_KEY
-# )
-
-
+### These values can be replaced by values derived from docker-compose
 RUN_ID = os.getenv('RUN_ID', "a83db8840d254e9095dfe0ed2bc92158")
 S3_BUCKET = os.getenv('S3_BUCKET', "mlopszoomcamp-bucket")
 REGION = os.getenv('REGION', "Oxford")
@@ -24,11 +16,6 @@ REGION = os.getenv('REGION', "Oxford")
 ### from S3 without tracking server ###
 logged_model = f's3://{S3_BUCKET}/UK_house_price/{RUN_ID}/artifacts/models_prophet'
 model = mlflow.pyfunc.load_model(logged_model)
-
-
-
-with open('model_prophet_Oxford.bin', 'rb') as f_in:
-    model = pickle.load(f_in)
 
 
 def prepare_features(df_test):
