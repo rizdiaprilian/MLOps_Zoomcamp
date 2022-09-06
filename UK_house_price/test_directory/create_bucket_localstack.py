@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 import os
 import json
 import pickle
+import pandas as pd
 
 ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -45,6 +46,7 @@ def upload_file(file_name, bucket, object_name=None):
     Upload a file to a S3 bucket.
     """
     try:
+        logger.info('Upload file to s3 bucket localstack begins...')
         if object_name is None:
             object_name = os.path.basename(file_name)
         response = s3_client.upload_file(
@@ -60,12 +62,31 @@ def download_file(file_name, bucket, object_name):
     Download a file from a S3 bucket.
     """
     try:
+        logger.info('Download file to s3 bucket localstack starts...')
         response = s3_resource.Bucket(bucket).download_file(object_name, file_name)
     except ClientError:
         logger.exception('Could not download file to S3 bucket.')
         raise
     else:
+        logger.info('Download file to s3 bucket localstack finishes...')
         return response
+
+def read_localstack(output_file):
+    if S3_ENDPOINT_URL is not None:
+        options = {
+            'client_kwargs': {
+                'endpoint_url': S3_ENDPOINT_URL
+            }
+        }
+    try:
+        logger.info('Reading parquet file from s3 bucket localstack starts...')
+        df_actual = pd.read_parquet(output_file, storage_options=options)
+    except ClientError:
+        logger.exception('Could not download file to S3 bucket.')
+        raise 
+    else:
+        logger.info('Reading parquet file from s3 bucket localstack finishes...')
+        return df_actual
 
 def main():
     """

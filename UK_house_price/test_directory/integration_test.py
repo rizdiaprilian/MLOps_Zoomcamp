@@ -5,12 +5,13 @@ import os, pickle, sys
 from deepdiff import DeepDiff
 import boto3
 import logging
+from time import sleep
 
 import sys
 sys.path.append('../')
 
 from test_directory.tests import test_data
-from create_bucket_localstack import upload_file
+from create_bucket_localstack import upload_file, read_localstack
 
 ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -62,15 +63,16 @@ def prediction(region: str):
         'yhat_lower': {0: 140000.0, 1: 150000.0, 2: 210000.0},
         'yhat_upper': {0: 170000.0, 1: 180000.0, 2: 240000.0},
     }
+
     assert expected_prediction == result_dict
     diff = DeepDiff(result_dict, expected_prediction, significant_digits=2)
     print(f'diff={diff}')
 
     assert 'type_changes' not in diff
     assert 'values_changed' not in diff
+    ### Assertion ends ###
 
     return merge_result
-
 
 def main():
     region = sys.argv[1] # "Oxford"
@@ -86,6 +88,9 @@ def main():
     object_name = f'{region}_predictions.parquet'
     bucket = 'uk-house-price-localstack'
     upload_file(output_file, bucket, object_name)
+    sleep(5)
+    df = read_localstack(f"s3://uk-house-price-localstack/{region}_predictions.parquet")
+    print(df.head())
 
 if __name__ == '__main__':
     main()
