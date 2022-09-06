@@ -83,7 +83,6 @@ Since Evidently has yet released the feature specified for assessing time-series
 We wish to test how well the prediction works. AWS S3 localstack and docker is used to serve this purpose. Again `.env` is provided to give environment variables for helping testing codes more loosely coupled.
 
 1) Build docker inside `test_directory` as specified in `run_test.sh`. Then execute `docker-compose up` that will launch localstack with configured port to interact with.
-![image](image.png)
 2) For each bash terminal, before running any python code, use this command to retrieve values from `.env` and exporting them.
 ```
 set -a
@@ -95,6 +94,8 @@ set +a
 5) Run integration test with argument `region` if the prophet model for that region is already exist in `test_directory` , e.g. `python integration_test.py Oxford`. A prediction of `region` in parquet format will be uploaded to localstack bucket after having been generated in remote. Also, a snapshot of pandas loaded from parquet will appear in terminal.
 6) Check whether the files have been successfully uploaded inside S3 localstack with command `awslocal s3 ls s3://uk-house-price-localstack --human-readable`
 
+Pylint and black is used here for formatting. Both Pylint and black gives feedback on quality on the code is written.
+Commands used (for demonstration) are `pylint baseline_learn.py` and `black --diff baseline_learn.py`. 
 
 
 
