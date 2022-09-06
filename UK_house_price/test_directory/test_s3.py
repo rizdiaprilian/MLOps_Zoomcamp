@@ -1,10 +1,6 @@
 import os
-import json
 from pprint import pprint
-
 import boto3
-
-import os
 
 print(os.environ.get('AWS_DEFAULT_REGION'))
 print(os.environ.get('AWS_REGION'))

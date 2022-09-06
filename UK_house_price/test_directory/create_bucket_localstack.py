@@ -1,9 +1,8 @@
 import logging
-import boto3
-from botocore.exceptions import ClientError
 import os
 import json
-import pickle
+import boto3
+from botocore.exceptions import ClientError
 import pandas as pd
 
 ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -52,6 +51,7 @@ def upload_file(file_name, bucket, object_name=None):
         response = s3_client.upload_file(
             file_name, bucket, object_name)
     except ClientError:
+        logger.exception('Could upload file to S3 bucket.')
         raise
     else:
         logger.info('Upload file to s3 bucket localstack finishes...')
@@ -65,13 +65,16 @@ def download_file(file_name, bucket, object_name):
         logger.info('Download file to s3 bucket localstack starts...')
         response = s3_resource.Bucket(bucket).download_file(object_name, file_name)
     except ClientError:
-        logger.exception('Could not download file to S3 bucket.')
+        logger.exception('Could not download file from S3 bucket.')
         raise
     else:
         logger.info('Download file to s3 bucket localstack finishes...')
         return response
 
 def read_localstack(output_file):
+    """
+    Read a parquet file from a S3 bucket.
+    """
     if S3_ENDPOINT_URL is not None:
         options = {
             'client_kwargs': {

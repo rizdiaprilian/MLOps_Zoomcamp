@@ -1,16 +1,19 @@
-from pandas import Timestamp
-import pandas as pd
-import numpy as np
-import os, pickle, sys
-from deepdiff import DeepDiff
-import boto3
+# pylint: disable=wrong-import-position
+
 import logging
 from time import sleep
-
+import os
+import pickle
 import sys
+import pandas as pd
+from pandas import Timestamp
+import numpy as np
+from deepdiff import DeepDiff
+import boto3
+
 sys.path.append('../')
 
-from test_directory.tests import test_data
+from tests.test_data import input_data
 from create_bucket_localstack import upload_file, read_localstack
 
 ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -35,6 +38,7 @@ s3_resource = boto3.resource("s3", region_name=AWS_REGION,
 
 
 def load_model(region: str):
+    # pylint: disable=missing-function-docstring, invalid-name
     MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_{region}.bin')
     with open(MODEL_FILE, 'rb') as f_in:
         model = pickle.load(f_in)
@@ -42,11 +46,11 @@ def load_model(region: str):
 
 
 def prediction(region: str):
-    df = test_data.input_data()
+    # pylint: disable=missing-function-docstring, invalid-name
+    df = input_data()
     data_prep = df[['Date','Average_Price']].rename(columns={'Date': 'ds', 'Average_Price': 'y'})
     model = load_model(region)
     y_predict = model.predict(data_prep)
-    
     df_predict = y_predict[['ds','yhat','yhat_lower','yhat_upper']]
     merge_result = pd.merge(data_prep, df_predict, how="left", on="ds")
     merge_result['yhat'] = np.round(merge_result['yhat'], decimals = 2)
@@ -54,6 +58,7 @@ def prediction(region: str):
     merge_result['yhat_upper'] = np.round(merge_result['yhat_upper'], decimals =-4)
 
     ## This assertion only works for prediction made on model made for "Oxford"
+    ## Comment these blocks to exclude assertion codes below 
     result_dict = merge_result.to_dict()
     expected_prediction = {
         'ds': {0: Timestamp('2001-06-01 00:00:00'), 1: Timestamp('2003-07-15 00:00:00'),
@@ -75,6 +80,7 @@ def prediction(region: str):
     return merge_result
 
 def main():
+    # pylint: disable=missing-function-docstring, invalid-name
     region = sys.argv[1] # "Oxford"
     merge_result = prediction(region)
     output_file = f'{region}_predictions.parquet'
