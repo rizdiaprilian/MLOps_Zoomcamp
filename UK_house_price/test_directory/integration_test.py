@@ -3,28 +3,39 @@ from datetime import datetime
 from pandas.testing import assert_frame_equal
 from pandas import Timestamp
 import pandas as pd
-import os, pickle
 import numpy as np
+import os, pickle, sys
 from deepdiff import DeepDiff
 import boto3
 from botocore.exceptions import ClientError
+import logging
 
 
-AWS_REGION = os.getenv('AWS_REGION', "")
-ACCESS_KEY = os.getenv('AWS_ACCESS_KEY_ID', "")
-SECRET_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', "")
-S3_ENDPOINT_URL = os.getenv('ENDPOINT_URL',"http://localhost:4566")
+ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
+SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+S3_ENDPOINT_URL = os.getenv('S3_ENDPOINT_URL',"http://localhost:4566")
+AWS_REGION = os.environ.get('AWS_REGION')
+
+## Logger config
+logger = logging.getLogger()
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s: %(levelname)s: %(message)s')
+
+
+s3_client = boto3.client("s3", region_name=AWS_REGION,
+                         endpoint_url=S3_ENDPOINT_URL,
+                         use_ssl=False,
+                        aws_access_key_id=ACCESS_KEY,
+                        aws_secret_access_key=SECRET_KEY)
+
+s3_resource = boto3.resource("s3", region_name=AWS_REGION,
+                         endpoint_url=S3_ENDPOINT_URL)
 
 
 def upload_file(file_name, bucket, object_name=None):
     """
     Upload a file to a S3 bucket.
     """
-    s3_client = boto3.client("s3", region_name=AWS_REGION,
-                         endpoint_url=S3_ENDPOINT_URL,
-                         use_ssl=False,
-                        aws_access_key_id=ACCESS_KEY,
-                        aws_secret_access_key=SECRET_KEY)
     try:
         if object_name is None:
             object_name = os.path.basename(file_name)
@@ -49,17 +60,6 @@ def input_data():
        'Annual_Change', 'Average_Price_SA']
     df = pd.DataFrame(data, columns=columns)
     df["Date"] = pd.to_datetime(df.Date)
-    output_file = 'Oxford_predictions.parquet'
-    df.to_parquet(
-            output_file,
-            engine='pyarrow',
-            compression=None,
-            index=False
-        )
-
-    object_name = f'Oxford_predictions.parquet'
-    bucket = 'UK-house-price-localstack'
-    s3 = upload_file(output_file, bucket, object_name)
     return df
 
 def load_model():
@@ -69,7 +69,7 @@ def load_model():
     return model
 
 
-def predict_features():
+def prediction():
     df = input_data()
     data_prep = df[['Date','Average_Price']].rename(columns={'Date': 'ds', 'Average_Price': 'y'})
     expected_result = {
@@ -77,9 +77,6 @@ def predict_features():
                     2: Timestamp('2005-09-21 00:00:00')},
         'y': {0: 189310, 1: 243400, 2: 142500},
         }
-
-    df_expected = pd.DataFrame(expected_result)
-    assert_frame_equal(data_prep, df_expected)
     model = load_model()
     y_predict = model.predict(data_prep)
     
@@ -105,6 +102,28 @@ def predict_features():
     assert 'type_changes' not in diff
     assert 'values_changed' not in diff
 
+    return merge_result
+
+
+def main():
+    merge_result = prediction()
+    region = sys.argv[1] # "Oxford"
+    output_file = f'{region}_predictions.parquet'
+    options = {
+        'client_kwargs': {
+            'endpoint_url': S3_ENDPOINT_URL
+            }
+        }
+    merge_result.to_parquet(
+            output_file,
+            engine='pyarrow',
+            compression=None,
+            index=False
+        )
+
+    object_name = f'{region}_predictions.parquet'
+    bucket = 'uk-house-price-localstack'
+    s3 = upload_file(output_file, bucket, object_name)
 
 if __name__ == '__main__':
-    predict_features()
+    main()

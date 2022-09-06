@@ -23,3 +23,13 @@ docker run -it --rm \
     ${LOCAL_IMAGE_NAME}
 
 pipenv run python test_model.py
+
+
+## Sourcing the .env file and exporting them as environment variables
+set -a
+source .env
+set +a
+
+python test_s3.py
+
+####
