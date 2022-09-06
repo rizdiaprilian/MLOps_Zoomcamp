@@ -5,7 +5,6 @@ import os, sys
 import boto3
 from datetime import datetime
 
-
 def input_data(region: str):
     S3_ENDPOINT_URL = os.getenv('ENDPOINT_URL',"http://localhost:4566")
     
@@ -21,7 +20,7 @@ def input_data(region: str):
 
 
 if __name__ == "__main__":
-    region = int(sys.argv[1])  # Oxford
+    region = sys.argv[1]  # Oxford
     df = input_data(region)
 
     print(df.head())

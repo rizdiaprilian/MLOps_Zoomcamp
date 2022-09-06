@@ -1,15 +1,16 @@
-from pathlib import Path
-from datetime import datetime
-from pandas.testing import assert_frame_equal
 from pandas import Timestamp
 import pandas as pd
 import numpy as np
 import os, pickle, sys
 from deepdiff import DeepDiff
 import boto3
-from botocore.exceptions import ClientError
 import logging
 
+import sys
+sys.path.append('../')
+
+from test_directory.tests import test_data
+from create_bucket_localstack import upload_file
 
 ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -32,52 +33,17 @@ s3_resource = boto3.resource("s3", region_name=AWS_REGION,
                          endpoint_url=S3_ENDPOINT_URL)
 
 
-def upload_file(file_name, bucket, object_name=None):
-    """
-    Upload a file to a S3 bucket.
-    """
-    try:
-        if object_name is None:
-            object_name = os.path.basename(file_name)
-        response = s3_client.upload_file(
-            file_name, bucket, object_name)
-    except ClientError:
-        raise
-    else:
-        return response
-
-def dt(year, month, day):
-    return datetime(year, month, day)
-
-def input_data():
-    data = [
-            (dt(2001, 6, 1), 'Newcastle upon Tyne', 'E060003', 189310, 2.3, 1.3, 146575),
-            (dt(2003, 7, 15), 'Liverpool', 'F423103', 243400, 2.3, 2.3, 242358),
-            (dt(2005, 9, 21), 'Kent', 'B80514', 142500, 2.3, 2.3, 134131), 
-    ]
-
-    columns = ['Date', 'Region_Name', 'Area_Code', 'Average_Price', 'Monthly_Change',
-       'Annual_Change', 'Average_Price_SA']
-    df = pd.DataFrame(data, columns=columns)
-    df["Date"] = pd.to_datetime(df.Date)
-    return df
-
-def load_model():
-    MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_Oxford.bin')
+def load_model(region: str):
+    MODEL_FILE = os.getenv('MODEL_FILE', f'model_prophet_{region}.bin')
     with open(MODEL_FILE, 'rb') as f_in:
         model = pickle.load(f_in)
     return model
 
 
-def prediction():
-    df = input_data()
+def prediction(region: str):
+    df = test_data.input_data()
     data_prep = df[['Date','Average_Price']].rename(columns={'Date': 'ds', 'Average_Price': 'y'})
-    expected_result = {
-        'ds': {0: Timestamp('2001-06-01 00:00:00'), 1: Timestamp('2003-07-15 00:00:00'),
-                    2: Timestamp('2005-09-21 00:00:00')},
-        'y': {0: 189310, 1: 243400, 2: 142500},
-        }
-    model = load_model()
+    model = load_model(region)
     y_predict = model.predict(data_prep)
     
     df_predict = y_predict[['ds','yhat','yhat_lower','yhat_upper']]
@@ -86,6 +52,7 @@ def prediction():
     merge_result['yhat_lower'] = np.round(merge_result['yhat_lower'], decimals =-4)
     merge_result['yhat_upper'] = np.round(merge_result['yhat_upper'], decimals =-4)
 
+    ## This assertion only works for prediction made on model made for "Oxford"
     result_dict = merge_result.to_dict()
     expected_prediction = {
         'ds': {0: Timestamp('2001-06-01 00:00:00'), 1: Timestamp('2003-07-15 00:00:00'),
@@ -106,8 +73,8 @@ def prediction():
 
 
 def main():
-    merge_result = prediction()
     region = sys.argv[1] # "Oxford"
+    merge_result = prediction(region)
     output_file = f'{region}_predictions.parquet'
     merge_result.to_parquet(
             output_file,
@@ -118,7 +85,7 @@ def main():
 
     object_name = f'{region}_predictions.parquet'
     bucket = 'uk-house-price-localstack'
-    s3 = upload_file(output_file, bucket, object_name)
+    upload_file(output_file, bucket, object_name)
 
 if __name__ == '__main__':
     main()
