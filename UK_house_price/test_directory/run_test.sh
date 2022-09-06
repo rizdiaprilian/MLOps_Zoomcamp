@@ -32,4 +32,15 @@ set +a
 
 python test_s3.py
 
-####
+
+## Showing differences in code quality
+isort --diff . | less
+## fixing codes
+isort .
+## see the changes 
+git diff integration_test.py
+
+isort .
+black .
+pylint --recursive=y .
+pytest tests/
