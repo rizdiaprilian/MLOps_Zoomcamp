@@ -109,11 +109,6 @@ def main():
     merge_result = prediction()
     region = sys.argv[1] # "Oxford"
     output_file = f'{region}_predictions.parquet'
-    options = {
-        'client_kwargs': {
-            'endpoint_url': S3_ENDPOINT_URL
-            }
-        }
     merge_result.to_parquet(
             output_file,
             engine='pyarrow',
