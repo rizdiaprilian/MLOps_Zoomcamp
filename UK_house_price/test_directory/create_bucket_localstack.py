@@ -1,7 +1,7 @@
 # pylint: disable=invalid-name,missing-module-docstring,logging-not-lazy
+import os
 import json
 import logging
-import os
 
 import boto3
 import pandas as pd
@@ -28,7 +28,9 @@ s3_client = boto3.client(
     aws_secret_access_key=SECRET_KEY,
 )
 
-s3_resource = boto3.resource("s3", region_name=AWS_REGION, endpoint_url=S3_ENDPOINT_URL)
+s3_resource = boto3.resource(
+    "s3", region_name=AWS_REGION, endpoint_url=S3_ENDPOINT_URL
+)
 
 
 def create_bucket(bucket_name):
@@ -70,7 +72,9 @@ def download_file(file_name, bucket, object_name):
     """
     try:
         logger.info("Download file to s3 bucket localstack starts...")
-        response = s3_resource.Bucket(bucket).download_file(object_name, file_name)
+        response = s3_resource.Bucket(bucket).download_file(
+            object_name, file_name
+        )
     except ClientError:
         logger.exception("Could not download file from S3 bucket.")
         raise
@@ -92,7 +96,9 @@ def read_localstack(output_file):
         logger.exception("Could not download file to S3 bucket.")
         raise
     else:
-        logger.info("Reading parquet file from s3 bucket localstack finishes...")
+        logger.info(
+            "Reading parquet file from s3 bucket localstack finishes..."
+        )
         return df_actual
 
 

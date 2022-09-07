@@ -1,22 +1,22 @@
 # pylint: disable=invalid-name,missing-function-docstring
 # pylint: disable=missing-module-docstring,wrong-import-position
 
-import logging
 import os
-import pickle
 import sys
+import pickle
+import logging
 from time import sleep
 
 import boto3
 import numpy as np
 import pandas as pd
-from deepdiff import DeepDiff
 from pandas import Timestamp
+from deepdiff import DeepDiff
 
 sys.path.append("../")
 
-from create_bucket_localstack import read_localstack, upload_file
 from tests.test_data import input_data
+from create_bucket_localstack import upload_file, read_localstack
 
 ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
 SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
@@ -39,7 +39,9 @@ s3_client = boto3.client(
     aws_secret_access_key=SECRET_KEY,
 )
 
-s3_resource = boto3.resource("s3", region_name=AWS_REGION, endpoint_url=S3_ENDPOINT_URL)
+s3_resource = boto3.resource(
+    "s3", region_name=AWS_REGION, endpoint_url=S3_ENDPOINT_URL
+)
 
 
 def load_model(region: str):
@@ -61,8 +63,12 @@ def prediction(region: str):
     df_predict = y_predict[["ds", "yhat", "yhat_lower", "yhat_upper"]]
     merge_result = pd.merge(data_prep, df_predict, how="left", on="ds")
     merge_result["yhat"] = np.round(merge_result["yhat"], decimals=2)
-    merge_result["yhat_lower"] = np.round(merge_result["yhat_lower"], decimals=-4)
-    merge_result["yhat_upper"] = np.round(merge_result["yhat_upper"], decimals=-4)
+    merge_result["yhat_lower"] = np.round(
+        merge_result["yhat_lower"], decimals=-4
+    )
+    merge_result["yhat_upper"] = np.round(
+        merge_result["yhat_upper"], decimals=-4
+    )
 
     ## This assertion only works for prediction made on model made for "Oxford"
     ## Comment these blocks to exclude assertion codes below
@@ -103,7 +109,9 @@ def main():
     bucket = "uk-house-price-localstack"
     upload_file(output_file, bucket, object_name)
     sleep(5)
-    df = read_localstack(f"s3://uk-house-price-localstack/{region}_predictions.parquet")
+    df = read_localstack(
+        f"s3://uk-house-price-localstack/{region}_predictions.parquet"
+    )
     print(df.head())
 
 

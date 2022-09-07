@@ -12,7 +12,6 @@ mlflow = "*"
 prefect = "==2.0.3"
 boto3 = "*"
 prophet = "*"
-statsmodels = "*"
 
 [dev-packages]
 requests = "*"
