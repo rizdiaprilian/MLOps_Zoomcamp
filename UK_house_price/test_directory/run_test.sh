@@ -37,7 +37,7 @@ python test_s3.py
 isort --diff . | less
 ## fixing codes
 isort .
-## see the changes 
+## see the changes
 git diff integration_test.py
 
 isort .
