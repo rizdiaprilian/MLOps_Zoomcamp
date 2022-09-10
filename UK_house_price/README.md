@@ -29,6 +29,7 @@ Environemt setting used here is `Pipfile` as the purpose is to gain better modul
 1) Run `pipenv install scikit-learn pandas prophet --version==3.9`. `Pipfile` and `Pipfile.lock` shall appear that collection of modules.
 2) Enter the environment with command `pipenv shell`
 3) To make it easier for writing command without clutter from relative directory, change with command `PS1="> "`
+4) Check whether python VSCode is inside pipenv with command `which python`
 
 ## **Fitting Prophet Model**
 
@@ -128,7 +129,23 @@ Update: Unit/integration testing, quality code rating, code formatting in automa
 
 2) Just follow steps from previous section except 1) (start from 2) all the way to 6))
 3) After press `Ctrl+C` on running docker to stop localstack service
-Before getting ready to push code to Github, check whether the code with `pre-commit`:
+
+## **Pre-Commit**
+
+To better identify simple, minor issues and make sure that testing runs well before submission to github, pre-commit hooks is configured for this project.
+
+1) Inside `UK_house_price` initialize empty git with `git init`.
+2) Create pre-commit yaml file with command `pre-commit sample-config > .pre-commit-config.yaml` 
+3) Install pre-commit after `.git` appears in directory.
+![image](https://user-images.githubusercontent.com/42743243/189482497-0402ad99-f447-434a-9851-74188d9b527e.png)
+4) Generate `.gitignore` to exclude files/folders from hooks.
+5) Add them with `git add <files/folders>`
+![image](https://user-images.githubusercontent.com/42743243/189483161-0f970d3d-c1fb-46cb-ae30-d07926123c18.png)
+6) Command `git commit -m "<message>" will show the process
+![image](https://user-images.githubusercontent.com/42743243/189483244-69ca705f-76e4-4de5-8c60-71633445e20f.png)
+
+7) 
+
 ```
 git init
 pre-commit install
@@ -137,6 +154,4 @@ pre-commit install
 Pylint and black is used here for formatting. Both Pylint and black gives feedback on quality on the code is written.
 Commands used (for demonstration) are `pylint baseline_learn.py` and `black --diff baseline_learn.py`.
 
-## **Pre-Commit**
 
-UK_house_price is set for pre-commit hooks.
