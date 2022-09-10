@@ -14,6 +14,14 @@ The aiming from working on this problem is to predict the volatility of surging 
 
 Prophet is used to meet its forecasting purpose. The information about Prophet is provided [here](https://github.com/facebook/prophet)
 
+## **Project Structure**
+
+This project is developed and tested using cloud service AWS. As such, any configuration made for running programs and services is adjusted to make full use of AWS services, with most of progrmas utilize S3 bucket mainly for storing and reproducing models after completing machine learning experiment.
+
+Structures are constructed as follows:
+- [deployment](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/deployment)
+- [monitoring](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/monitoring_ML)
+- [testing](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/test_directory)
 
 ## **Initialization**
 
