@@ -93,7 +93,7 @@ Inside directory `monitoring_ML`, do:
 ![image](https://user-images.githubusercontent.com/42743243/189479026-1fd76174-697c-4b57-99f0-94236c6f62fa.png)
 
 
-4) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this file, `evidently_report_UK_houe_price.html`, is too large in size, it is recommended to download first and open it in browser. 
+4) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this [file](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/monitoring_ML/evidently_report_UK_house_price.html) size is too large for viewing, it is recommended to download first and open it in browser. 
 ![image](https://user-images.githubusercontent.com/42743243/189478594-326ecf97-0cef-484c-a3b7-b6992c5ec250.png)
 
 
