@@ -82,9 +82,12 @@ Inside directory `monitoring_ML`, do:
 1) Prepare four bash terminals, in which these terminals are used to: operate services with Docker compose, run Prefect Orion, 
 2) Execute `docker-compose up` to start up service as follows: Prometheus, Grafana, MongoDB, and Evidently 
 3) Run 'python send_data.py` to start sending data to MongoDB and Evidently monitoring service. An example of data drift monitoring in Grafana appears to be shown below
-[grafana]()
+![image](https://user-images.githubusercontent.com/42743243/189478584-7df0ba1e-beef-4b59-afc0-70dad79f555c.png)
+![image](https://user-images.githubusercontent.com/42743243/189478614-6c5ec003-1f00-455a-a3a7-fd8bb26d9861.png)
+
 4) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this file, `evidently_report_UK_houe_price.html`, is too large in size, it is recommended to download first and open it in browser. 
-[evidently]()
+![image](https://user-images.githubusercontent.com/42743243/189478594-326ecf97-0cef-484c-a3b7-b6992c5ec250.png)
+
 
 ## **Testing**
 
