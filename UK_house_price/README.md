@@ -19,18 +19,18 @@ Prophet is used to meet its forecasting purpose. The information about Prophet i
 This project is developed and tested using cloud service AWS. As such, any configuration made for running programs and services is adjusted to make full use of AWS services, with most of progrmas utilize S3 bucket mainly for storing and reproducing models after completing machine learning experiment.
 
 Structures are constructed as follows:
-- [experiment & orchestration]()
+- [experiment & orchestration](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/experiment_orchestration)
 - [deployment](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/deployment)
 - [monitoring](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/monitoring_ML)
 - [testing](https://github.com/rizdiaprilian/MLOps_Zoomcamp/tree/master/UK_house_price/test_directory)
 
 ## **Initialization**
 
-The practice follows the same order as what we have been learning in week term. The structures is as follow:
-- Experimentation tracking with MLFlow
-- Orchestration with Prefect Orion (Prefect 2.0.3 is used here)
-- Deployment from AWS S3 and MLFlow with Flask application
-- Monitoring with MongoDB, Evidently
+The practice largely follows the same order as what we have been learning throughout the course. Services and Technologies use are:
+- MLFlow: Experimentation tracking and reproducibility tool
+- Prefect Orion (Prefect 2.0.3 is used here): Orchestration 
+- Flask application: Model deployment from AWS S3 and MLFlow  
+- Evidently, Grafana, MongoDB: Monitoring data drift
 
 ### **Preparing Environment**
 
@@ -40,10 +40,11 @@ Environemt setting used here is `Pipfile` as the purpose is to gain better modul
 3) To make it easier for writing command without clutter from relative directory, change with command `PS1="> "`
 4) Check whether python VSCode is inside pipenv with command `which python`
 
+It is recommended to see more details of module installation as much of everything covered as demonstrated [here](https://www.youtube.com/watch?v=IXSiYkP23zo&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK&index=5)
 
+To start working with this project, always start with directory `UK_house_price` as are all depending modules are located there. However, it is also helpful to replicate Pipfile in sub directories and launch new virtualenv there. 
 
-
-## **Pre-Commit**
+### **Pre-Commit**
 
 To better identify simple, minor issues and make sure that testing runs well before submission to github, pre-commit hooks is configured for this project.
 
