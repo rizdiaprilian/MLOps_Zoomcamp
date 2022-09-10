@@ -141,9 +141,10 @@ To better identify simple, minor issues and make sure that testing runs well bef
 4) Generate `.gitignore` to exclude files/folders from hooks.
 5) Add them with `git add <files/folders>`
 6) Command `git commit -m "<message>"` will show the process of fixing files (if there are sign of code issues detected)
-![image](https://user-images.githubusercontent.com/42743243/189483244-69ca705f-76e4-4de5-8c60-71633445e20f.png)
+![image](https://user-images.githubusercontent.com/42743243/189483558-370dc1b4-491f-4460-88d2-2a9a2dc11f7a.png)
 7) To see which files that receive fixing, go with command `git diff`. Press `Q` to exit from the command
-![image](https://user-images.githubusercontent.com/42743243/189483354-346f59d2-49e5-456c-98fd-fa357e2a6915.png)
+![image](https://user-images.githubusercontent.com/42743243/189483596-6862bc98-ef17-4bde-a1be-6b867cc05e0f.png)
+
 8) repeat the process from 5) and observe whether 
 Pylint and black is used here for formatting. Both Pylint and black gives feedback on quality on the code is written.
 Commands used (for demonstration) are `pylint baseline_learn.py` and `black --diff baseline_learn.py`.
