@@ -89,7 +89,6 @@ Inside directory `monitoring_ML`, do:
 2) Execute `docker-compose up` to start up service as follows: Prometheus, Grafana, MongoDB, and Evidently 
 3) Run 'python send_data.py` to start sending data to MongoDB and Evidently monitoring service. An example of data drift monitoring in Grafana appears to be shown below
 ![image](https://user-images.githubusercontent.com/42743243/189478584-7df0ba1e-beef-4b59-afc0-70dad79f555c.png)
-![image](https://user-images.githubusercontent.com/42743243/189478614-6c5ec003-1f00-455a-a3a7-fd8bb26d9861.png)
 ![image](https://user-images.githubusercontent.com/42743243/189479026-1fd76174-697c-4b57-99f0-94236c6f62fa.png)
 
 
