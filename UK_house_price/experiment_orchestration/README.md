@@ -1,3 +1,15 @@
+Here are files used to perform experimentation and orchestration:
+- `baseline_learn.py` -> This script serves as learning baseline, including loading UK house price data and transforming it into format suitable for prophet model. Its output is a fitted model on specified region in bin format.  
+- `baseline_predict.py` -> This script runs prediction on the unseen data and produces a parquet file that merges together observed rows with prediction result relative to the given date.
+- `mlflow_experiment.ipynb` -> This notebook used as a starting point of bringing what has been laid in `baseline_learn.py` and `baseline_predict.py` to experimental settings powered by MLFlow, in which its functionalites allow developer to create snapshots (artifacts) of training and inference outputs generated from variations of input parameters. 
+- `model_prefect.py` -> A modified version of `mlflow_experiment.ipynb` patched with decorators from Prefect Orion. Its resulting artifacts will be stored in S3 bucket while the information of metrics, tags and other input parameters are easily traceable in MLFlow environment.
+
+A baseline workflow descripted above is furtherly enhanced by MLFlow paired with AWS S3 bucket that give the experiment degrees of reproducibility and greater range of tracking capability. Database to store information comprises of inference metrics and parameters is SQLite; Orchestration agent to monitor unit functions and workflow is Prefect Orion.
+
+Before working on this section, complete these pre-configurations below: 
+1) Verify that a S3 bucket is already available before jumping to experimentation. This time `mlopszoomcamp-bucket` is chosen for bucket name.  
+2) Confirm that aws configure has been set. Its record can be seen in `~/.aws/credentials`.
+
 ## **Fitting Prophet Model**
 
 Prophet is used to capture forecasting capability on increasing trend of UK house price. Provided below are training and prediction at baseline stage.
@@ -7,7 +19,7 @@ Prophet is used to capture forecasting capability on increasing trend of UK hous
 
 ## **MLFlow Experimentation**
 
-The baseline workflow descripted above is then furtherly enhanced MLFlow paired with AWS EC2 and S3 that give the experiment degrees of reproducibility and greater range of tracking capability. Database to store information comprises of inference metrics and parameters is SQLite; Orchestration agent to manage of running smaller unit functions is Prefect Orion.
+Experiment provided in jupyter notebook is named `UK_house_price_forecasting`.
 
 ### **Steps**
 1) Open [Jupyter Notebook](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/mlflow_experiment.ipynb). Run the very first cell after setting tracking server.
