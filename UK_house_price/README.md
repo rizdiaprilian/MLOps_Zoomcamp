@@ -23,6 +23,12 @@ The practice follows the same order as what we have been learning in week term. 
 - Deployment from AWS S3 and MLFlow with Flask application
 - Monitoring with MongoDB, Evidently
 
+### **Preparing Environment**
+
+Environemt setting used here is `Pipfile` as the purpose is to gain better module utilization specified for this project. To launch the environment in `UK_house_price` directory, steps to be followed through are:
+1) Run `pipenv install scikit-learn pandas prophet --version==3.9`. `Pipfile` and `Pipfile.lock` shall appear that collection of modules.
+2) Enter the environment with command `pipenv shell`
+
 ## **Fitting Prophet Model**
 
 Prophet is used to capture forecasting capability on increasing trend of UK house price. Provided below are training and prediction at baseline stage.
