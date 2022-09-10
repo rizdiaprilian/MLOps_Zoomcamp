@@ -78,6 +78,14 @@ It is also possible to make a docker image for very same purpose. A little diffe
 
 Since Evidently has yet released the feature specified for assessing time-series prediction, data drift is the only measurement to be covered in this section. Both online and batch monitors are used in this project.
 
+Inside directory `monitoring_ML`, do:
+1) Prepare four bash terminals, in which these terminals are used to: operate services with Docker compose, run Prefect Orion, 
+2) Execute `docker-compose up` to start up service as follows: Prometheus, Grafana, MongoDB, and Evidently 
+3) Run 'python send_data.py` to start sending data to MongoDB and Evidently monitoring service. An example of data drift monitoring in Grafana appears to be shown below
+[grafana]()
+4) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this file, `evidently_report_UK_houe_price.html`, is too large in size, it is recommended to download first and open it in browser. 
+[evidently]()
+
 ## **Testing**
 
 We wish to test how well the prediction works. AWS S3 localstack and docker is used to serve this purpose. Again `.env` is provided to give environment variables for helping testing codes more loosely coupled.
