@@ -147,6 +147,7 @@ To better identify simple, minor issues and make sure that testing runs well bef
 8) repeat the process 5) and 6) and observe whether changes made on code pass all tests. 
 9) View commit (if success) with `git log`
 ![image](https://user-images.githubusercontent.com/42743243/189483952-dcfd6999-50eb-4533-9664-1c751a4b7698.png)
+10) Remove `.git` from directory with `rm -rf .git`.
 
 
 
