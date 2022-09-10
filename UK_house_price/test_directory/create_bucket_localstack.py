@@ -1,4 +1,5 @@
-# pylint: disable=invalid-name,missing-module-docstring,logging-not-lazy
+# pylint: disable=invalid-name,missing-module-docstring
+# pylint: disable=duplicate-code,logging-not-lazy
 import os
 import json
 import logging
