@@ -19,7 +19,7 @@ Prophet is used to capture forecasting capability on increasing trend of UK hous
 
 ## **MLFlow Experimentation**
 
-Experiment provided in jupyter notebook is named `UK_house_price_forecasting`.
+Experiment provided in jupyter notebook is named `UK_house_price_forecasting`. Launch jupyter lab with command `jupyter lab` and it will be appear in browser.
 
 ### **Steps**
 1) Open [Jupyter Notebook](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/mlflow_experiment.ipynb). Run the very first cell after setting tracking server.
@@ -36,4 +36,4 @@ prefect orion start --host 0.0.0.0
 
 ![image](https://user-images.githubusercontent.com/42743243/187728101-75ffe464-b34d-4c5a-8c24-15e7d93459e4.png)
 
-3) Run the prediction [here](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py). Command `python model_prefect.py Oxford "2019-01-01"` generates an artifact with several logs along with parameters and forecasting metrics and the logged model can be used for deployment.
+3) Run the [prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py) with command `python model_prefect.py Oxford "2019-01-01"` generates an artifact with several logs along with parameters and forecasting metrics and the logged model can be used for deployment.
