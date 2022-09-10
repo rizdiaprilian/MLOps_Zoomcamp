@@ -98,7 +98,7 @@ Inside directory `monitoring_ML`, do:
 
 ## **Testing**
 
-We wish to test how well the prediction works. AWS S3 localstack and docker is used to serve this purpose. Again `.env` is provided to give environment variables for helping testing codes more loosely coupled.
+We wish to test how well the prediction works. AWS S3 localstack and Docker is used to serve this purpose. Again `.env` is provided to give environment variables for helping testing codes more loosely coupled.
 
 1) Build docker inside `test_directory` as specified in `run_test.sh`. Then execute `docker-compose up` that will launch localstack with configured port to interact with.
 2) For each bash terminal, before running any python code, use this command to retrieve values from `.env` and exporting them.
@@ -109,9 +109,15 @@ set +a
 ```
 3) Create S3 localstack bucket with `create_bucket_localstack.py`. Bucket name chosen is `uk-house-price-localstack`
 4) Ensure the bucket is successfully created with this command `awslocal s3 ls`
-5) Run integration test with argument `region` if the prophet model for that region is already exist in `test_directory` , e.g. `python integration_test.py Oxford`. A prediction of `region` in parquet format will be uploaded to localstack bucket after having been generated in remote. Also, a snapshot of pandas loaded from parquet will appear in terminal.
+5) Run integration test with argument `region` if the prophet model for that region is already exist in `test_directory` , e.g. `python integration_test.py Oxford`. A prediction of `region` in parquet format (`Oxford_predictions.parquet`) will be uploaded to localstack bucket after having been generated in remote. Also, a snapshot of pandas loaded from parquet will appear in terminal.
 6) Check whether the files have been successfully uploaded inside S3 localstack with command `awslocal s3 ls s3://uk-house-price-localstack --human-readable`
+7) For automated testing, code rating, and formatting, utilize functions defined in `Makefile` with command `make integration test`
+8) Before getting ready to push code to Github, check whether the code with `pre-commit`:
+```
+git init
+pre-commit install
 
+```
 Pylint and black is used here for formatting. Both Pylint and black gives feedback on quality on the code is written.
 Commands used (for demonstration) are `pylint baseline_learn.py` and `black --diff baseline_learn.py`.
 
