@@ -64,7 +64,7 @@ To better identify simple, minor issues and make sure that testing runs well bef
 10) Remove `.git` from directory with `rm -rf .git`.
 
 
-### **What's Not Included**
+### **What's Not Included in This Project**
 
 - Hyperparameter tuning
 - IaC with Terraform and CI/CD
