@@ -65,7 +65,7 @@ def main():
     region = sys.argv[1]  # "Oxford"
     date = sys.argv[2]  # "2019-01-01"
 
-    NEW_PATH = os.path.join(Path.cwd(), "data")
+    NEW_PATH = os.path.join(Path.cwd().parents[0], "data")
     input_file = os.path.join(NEW_PATH, "Average_price-2022-06_from1995.csv")
     ### Folder `output` must exist before running this file
 

@@ -11,7 +11,7 @@ from prophet import Prophet
 
 def get_paths() -> str:
     """Returning path to dataset in string format"""
-    PATH_CURRENT = Path.cwd()
+    PATH_CURRENT = Path.cwd().parents[0]
     DATA_PATH = os.path.join(PATH_CURRENT, "data", "Average_price-2022-06_from1995.csv")
     return DATA_PATH
 
