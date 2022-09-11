@@ -23,12 +23,15 @@ Evidently will open two different data: reference and prediction. Reference is d
 ### **Running Services with Docker**
 
 Inside directory `monitoring_ML`, do:
-1) Prepare four bash terminals, in which these terminals are used to: operate services with Docker compose, run Prefect Orion, 
-2) Execute `docker-compose up` to start up service as follows: Prometheus, Grafana, MongoDB, and Evidently 
-3) Run 'python send_data.py` to start sending data to MongoDB and Evidently monitoring service. An example of data drift monitoring in Grafana appears to be shown below
+1) Prepare three bash terminals, in which these terminals are used to: operate services with Docker compose, send data to MongoDB and Evidently, and generate data drift report.
+2) Execute `docker-compose up` to start up service as follows: Prometheus, Grafana, MongoDB, and Evidently.
+3) Login Grafana with the same value for username and password: `admin`.
+4) Run 'python send_data.py` to start sending data to MongoDB and Evidently monitoring service. An example of data drift monitoring in Grafana appears to be shown below
 ![image](https://user-images.githubusercontent.com/42743243/189478584-7df0ba1e-beef-4b59-afc0-70dad79f555c.png)
 ![image](https://user-images.githubusercontent.com/42743243/189479026-1fd76174-697c-4b57-99f0-94236c6f62fa.png)
 
 
-4) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this [file](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/monitoring_ML/evidently_report_UK_house_price.html) size is too large for viewing, it is recommended to download first and open it in browser. 
+5) Run 'python prefect_batch_monitoring.py' to produce a summary of data drift in HTML format. As this [file](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/monitoring_ML/evidently_report_UK_house_price.html) size is too large for viewing, it is recommended to download first and open it in browser. 
 ![image](https://user-images.githubusercontent.com/42743243/189478594-326ecf97-0cef-484c-a3b7-b6992c5ec250.png)
+6) If you wish to stop the service, just run `docker-compose down`.
+7) To avoid taking too much space, view image list with `docker image ls`. Running command `docker image rm <IMAGE ID>` will remove selected image.
