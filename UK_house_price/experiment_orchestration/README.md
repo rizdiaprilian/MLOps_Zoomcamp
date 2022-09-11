@@ -30,7 +30,7 @@ Launch MLFlow with command `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri
 
 ![image](https://user-images.githubusercontent.com/42743243/187728007-28af1174-96ff-477c-ac7f-16f2cdb752ff.png)
 
-Copy the output of that cell and paste it to the address bar to start MLFlow.
+Copy the output of that cell and paste it to the address bar to launch MLFlow.
 
 Alternatively, you can also launch MLFlow without needing to start jupyter lab. Use the command below and do the same thing on copy and paste tracking uri.
 ```
@@ -45,7 +45,10 @@ prefect config set PREFECT_ORION_UI_API_URL="<Public IPv4 address>/api"
 prefect config set PREFECT_API_URL="<Public IPv4 address>/api"
 prefect orion start --host 0.0.0.0
 ```
-
-![image](https://user-images.githubusercontent.com/42743243/187728101-75ffe464-b34d-4c5a-8c24-15e7d93459e4.png)
+Copy and paste `<Public IPv4 address>/api` to the address bar to launch Prefect Orion. For example `http://3.11.9.244:4200/api`
+![image](https://user-images.githubusercontent.com/42743243/189531726-79938671-6679-4a37-9125-202b86c37d78.png)
 
 3) Run the [prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/model_prefect.py) with command `python model_prefect.py Oxford "2019-01-01"` generates an artifact with several logs along with parameters and forecasting metrics and the logged model can be used for deployment.
+
+![image](https://user-images.githubusercontent.com/42743243/189531701-7481c9d3-ba6d-4fec-a14c-649b167b2d53.png)
+
