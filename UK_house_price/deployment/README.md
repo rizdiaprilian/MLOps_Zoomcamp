@@ -1,6 +1,8 @@
 ## **Deployment**
-Experiment results stored in s3 bucket can be recalled to be used for deploying Prophet in Flask environment. See directory `deployment` to see the structures.
-Steps to follow:
+
+Model registry in MLFlow can then used later for deployment purpose. This section will cover the method of reusing model artifact stored in s3 bucket as a Prophet model that evaluates trend of house prices in a certain region. This programe is conducted in Flask environment.
+
+### **Steps**
 1) Set environment variables.
 ```
 export RUN_ID="2a18236a06a346cd97a931f545d0be0f"
