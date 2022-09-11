@@ -15,7 +15,7 @@ Before working on this section, complete these pre-configurations below:
 Prophet is used to capture forecasting capability on increasing trend of UK house price. Provided below are training and prediction at baseline stage.
 
 1) Baseline learning and [model_generation](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_learn.py). This file will generate a model trained on a specified region after splitted under a given date and it is stored inside directory `models`. For example, command `python baseline_learn.py Oxford "2019-01-01"` will generate `models_prophet_Oxford.bin`
-2) Then run the prediction on a selected region with [Baseline prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_predict.py), e.g. `python baseline_predict.py Oxford "2019-01-01`.
+2) Then run the prediction on a selected region with [Baseline prediction](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/baseline_predict.py), e.g. `python baseline_predict.py Oxford "2019-01-01"`.
 
 ## **MLFlow Experimentation**
 
@@ -23,9 +23,21 @@ Experiment provided in jupyter notebook is named `UK_house_price_forecasting`. L
 
 ### **Steps**
 1) Open [Jupyter Notebook](https://github.com/rizdiaprilian/MLOps_Zoomcamp/blob/master/UK_house_price/mlflow_experiment.ipynb). Run the very first cell after setting tracking server.
+
+![image](https://user-images.githubusercontent.com/42743243/189531493-efdba89f-a4ca-43ab-91f4-2dccc5577aac.png)
+
 Launch MLFlow with command `mlflow server -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db --default-artifact-root s3://mlopszoomcamp-bucket`
 
 ![image](https://user-images.githubusercontent.com/42743243/187728007-28af1174-96ff-477c-ac7f-16f2cdb752ff.png)
+
+Copy the output of that cell and paste it to the address bar to start MLFlow.
+
+Alternatively, you can also launch MLFlow without needing to start jupyter lab. Use the command below and do the same thing on copy and paste tracking uri.
+```
+export MLFLOW_TRACKING_URI="http://ec2-3-11-9-244.eu-west-2.compute.amazonaws.com:5000"
+mlflow ui -h 0.0.0.0 -p 5000 --backend-store-uri sqlite:///mlflow_uk_house.db \
+        --default-artifact-root s3://mlopszoomcamp-bucket
+```
 
 2) Run the following command as follows to open Prefect Orion:
 ```
